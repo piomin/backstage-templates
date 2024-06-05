@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: person-service
+  datasource:
+    url: jdbc:postgresql://${DATABASE_HOST}:5432/${DATABASE_NAME}
+    username: ${DATABASE_USER}
+    password: ${DATABASE_PASS}
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+management:
+  info.java.enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint.health:
+    show-details: always
+    group:
+      readiness:
+        include: db
+    probes:
+      enabled: true
+#  server.port: 8081
+
+dekorate:
+  openshift:
+    auto-deploy-enabled: true
+#    deployment-kind: Deployment
+    replicas: 2
+    expose: true
+    env-vars:
+      - name: DATABASE_USER
+        value: database-user
+        secret: person-db
+      - name: DATABASE_PASS
+        value: database-password
+        secret: person-db
+      - name: DATABASE_NAME
+        value: database-name
+        secret: person-db
+      - name: DATABASE_HOST
+        value: person-db
+  s2i:
+    enable: true
+    auto-deploy-enabled: true
