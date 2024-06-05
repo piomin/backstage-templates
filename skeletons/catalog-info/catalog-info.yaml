@@ -22,7 +22,7 @@ metadata:
     {%- if values.hostUrl %}
     argocd/app-name: ${{ name }}
     {%- endif %}
-    {%- if values.ci == "../../../skeletons/tekton/" %}
+    {%- if values.ci == "../../skeletons/tekton/" %}
     tektonci/build-namespace: ${{ values.namespace }}
     {%- endif %}
     backstage.io/kubernetes-id: ${{ name }}
@@ -32,6 +32,16 @@ metadata:
     {%- elif values.sourceControl == "github.com" %}
     github.com/project-slug: ${{ values.orgName }}/${{ values.repoName }}
     {%- endif %}
+  tags:
+    - java
+    - spring-boot
+  links:
+    - url: https://devspaces${{values.cluster}}/#https://${{values.host}}/${{values.destination}}
+      title: OpenShift Dev Spaces (VS Code)
+      icon: web
+    - url: https://devspaces${{values.cluster}}/#https://${{values.host}}/${{values.destination}}?che-editor=che-incubator/che-idea/latest
+      title: OpenShift Dev Spaces (JetBrains IntelliJ)
+      icon: web
 spec:
   type: ${{ values.applicationType }}
   {%- if values.system %}
@@ -51,3 +61,18 @@ spec:
   partOf:
     - ${{ values.partOf }}
   {%- endif %}
+---
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: ${{values.componentId | dump}}
+  {%- if values.description %}
+  description: ${{values.description | dump}}
+  {%- endif %}
+spec:
+  type: openapi
+  lifecycle: production
+  owner: ${{values.owner | dump}}
+  definition:
+    $text: ./openapi.yaml
