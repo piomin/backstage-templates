@@ -2,15 +2,15 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: spring-boot-on-openshift-template
-  title: Create a Spring Boot Backend application with a CI pipeline
-  description: Create a starter Spring Boot backend application with a CI pipeline
+  title: Create a Spring Boot app and deploy it on OpenShift with a CI/CD pipeline
+  description: Create a Spring Boot app and deploy it on OpenShift with a CI/CD pipeline
   tags:
     - recommended
     - spring-boot
     - java
     - maven
 spec:
-  owner: janus-authors
+  owner: piomin
   system: janus-idp
   type: service
 
@@ -20,7 +20,7 @@ spec:
         - orgName
         - repoName
         - owner
-        - system
+#        - system
         - port
         - componentId
       properties:
@@ -43,14 +43,14 @@ spec:
               kind:
                 - Group
                 - User
-        system:
-          title: System
-          type: string
-          ui:field: EntityPicker
-          ui:options:
-            catalogFilter:
-              kind:
-                - System
+#        system:
+#          title: System
+#          type: string
+#          ui:field: EntityPicker
+#          ui:options:
+#            catalogFilter:
+#              kind:
+#                - System
         port:
           title: Port
           type: number
@@ -150,8 +150,8 @@ spec:
         values:
           orgName: ${{ parameters.orgName }}
           repoName: ${{ parameters.repoName }}
-          owner: ${{ parameters.owner }}
-          system: ${{ parameters.system }}
+          owner: ${{ user.entity.metadata.name }}
+#          system: ${{ parameters.system }}
           applicationType: api
           description: ${{ parameters.description }}
           namespace: ${{ parameters.namespace }}
@@ -170,13 +170,12 @@ spec:
       action: fetch:template
       input:
         url: ${{ parameters.ci }}
-        copyWithoutTemplating:
-          - .github/workflows/
+        copyWithoutTemplating: []
         values:
           orgName: ${{ parameters.orgName }}
           repoName: ${{ parameters.repoName }}
           owner: ${{ parameters.owner }}
-          system: ${{ parameters.system }}
+#          system: ${{ parameters.system }}
           applicationType: api
           description: ${{ parameters.description }}
           namespace: ${{ parameters.namespace }}
@@ -226,7 +225,7 @@ spec:
       name: Publishing to the Source Code Repository
       action: publish:gitlab
       input:
-        repoUrl: "${{ parameters.repo.host }}?owner=${{ parameters.repo.owner }}&repo=${{parameters.component_id}}"
+        repoUrl: "${{ parameters.repo.host }}?owner=${{ parameters.repo.owner }}&repo=${{parameters.componentId}}"
         repoVisibility: public
         defaultBranch: main
 
@@ -241,25 +240,25 @@ spec:
       name: Generating Deployment Resources
       action: fetch:template
       input:
-        url: ./manifests
+        url: ../../skeletons/gitops/
         copyWithoutTemplating: []
         values:
-          component_id: ${{ parameters.component_id }}
+          component_id: ${{ parameters.componentId }}
           description: ${{ parameters.description }}
-          destination: https://${{ parameters.repo.host }}/${{ parameters.repo.owner }}/${{parameters.component_id}}-gitops.git
-          source_repository: https://${{ parameters.repo.host }}/${{ parameters.repo.owner }}/${{parameters.component_id}}.git
-          repository_name: ${{parameters.component_id}}
+          destination: https://${{ parameters.repo.host }}/${{ parameters.repo.owner }}/${{parameters.componentId}}-gitops.git
+          source_repository: https://${{ parameters.repo.host }}/${{ parameters.repo.owner }}/${{parameters.componentId}}.git
+          repository_name: ${{parameters.componentId}}
           git_owner: ${{ parameters.repo.owner }}
           cluster: .apps.cluster-lzrsx.sandbox1850.opentlc.com
-          namespace: ${{ parameters.component_id }}-dev
+          namespace: ${{ parameters.componentId }}-dev
           image_registry: ${{ parameters.image_registry }}
           image_host: ${{ parameters.image_host }}
           image_organization: ${{ parameters.image_organization }}
-          image_name: ${{ parameters.component_id }}
+          image_name: ${{ parameters.componentId }}
           image_tag: ${{ parameters.image_tag }}
           port: 8080
           repository_host: ${{ parameters.repo.host }}
-          deployment_name: quarkus-template
+          deployment_name: spring-boot-template
           user: ${{ user.entity.metadata.name }}
         targetPath: ./tenant-gitops
 
@@ -267,7 +266,7 @@ spec:
       name: Publishing to Resource Repository
       action: publish:gitlab
       input:
-        repoUrl: "${{ parameters.repo.host }}?owner=${{ parameters.repo.owner }}&repo=${{parameters.component_id}}-gitops"
+        repoUrl: "${{ parameters.repo.host }}?owner=${{ parameters.repo.owner }}&repo=${{parameters.componentId}}-gitops"
         title: gitops resources for ${{ parameters.componentId }}
         description: gitops resources for ${{ parameters.componentId }}
         sourcePath: ./tenant-gitops
@@ -280,7 +279,7 @@ spec:
         appName: ${{ parameters.componentId }}-bootstrap
         argoInstance: main
         namespace: janus-argocd
-        repoUrl: https://${{ parameters.repo.host }}/${{ parameters.repo.owner }}/${{ parameters.component_id }}-gitops.git
+        repoUrl: https://${{ parameters.repo.host }}/${{ parameters.repo.owner }}/${{ parameters.componentId }}-gitops.git
         path: 'argocd/'
 
   output:
