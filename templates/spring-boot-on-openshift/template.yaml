@@ -56,6 +56,13 @@ spec:
           type: number
           default: 8080
           description: Override the port exposed for the application
+        componentId:
+          title: Name
+          type: string
+          description: Unique name of the component
+          default: sample-spring-boot-app
+          ui:field: EntityNamePicker
+          maxLength: 23
     - title: Provide information about the Java metadata
       required:
         - groupId
