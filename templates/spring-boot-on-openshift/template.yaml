@@ -172,7 +172,7 @@ spec:
           javaPackage: ${{ parameters.javaPackage }}
           host: ${{ parameters.repo.host }}
           destination: ${{ parameters.repo.owner }}/${{ parameters.componentId }}
-          sourceControl: github.com
+          sourceControl: gitlab.com
 
     - id: ciTemplate
       name: Generating the CI Component
@@ -198,7 +198,7 @@ spec:
           javaPackage: ${{ parameters.javaPackage }}
           host: ${{ parameters.repo.host }}
           destination: ${{ parameters.repo.owner }}/${{ parameters.componentId }}
-          sourceControl: github.com
+          sourceControl: gitlab.com
 
     - id: catalogTemplate
       name: Generating the Catalog Info Component
@@ -224,7 +224,7 @@ spec:
           javaPackage: ${{ parameters.javaPackage }}
           host: ${{ parameters.repo.host }}
           destination: ${{ parameters.repo.owner }}/${{ parameters.componentId }}
-          sourceControl: github.com
+          sourceControl: gitlab.com
 
 #    - id: publish
 #      name: Publishing to the Source Code Repository

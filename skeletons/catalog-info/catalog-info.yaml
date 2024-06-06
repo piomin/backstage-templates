@@ -19,18 +19,20 @@ metadata:
   description: ${{ values.description }}
   {%- endif %}
   annotations:
-    {%- if values.hostUrl %}
+    {%- if values.host %}
     argocd/app-name: ${{ name }}
     {%- endif %}
     {%- if values.ci == "../../skeletons/tekton/" %}
+    janus-idp.io/tekton: ${{ name }}
     tektonci/build-namespace: ${{ values.namespace }}
     {%- endif %}
     backstage.io/kubernetes-id: ${{ name }}
+    backstage.io/source-location: url:https://${{values.host}}/${{values.destination}}
     backstage.io/techdocs-ref: dir:.
     {%- if values.sourceControl == "gitlab.com" %}
-    gitlab.com/project-slug: ${{ values.orgName }}/${{ values.repoName }}
+    gitlab.com/project-slug: ${{values.destination}}
     {%- elif values.sourceControl == "github.com" %}
-    github.com/project-slug: ${{ values.orgName }}/${{ values.repoName }}
+    github.com/project-slug: ${{values.destination}}
     {%- endif %}
   tags:
     - java
