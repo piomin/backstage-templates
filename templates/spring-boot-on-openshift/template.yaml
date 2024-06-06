@@ -206,6 +206,7 @@ spec:
           repoName: ${{ parameters.repoName }}
           owner: ${{ parameters.owner }}
           system: ${{ parameters.system }}
+          cluster: .apps.cluster-lzrsx.sandbox1850.opentlc.com
           applicationType: api
           description: ${{ parameters.description }}
           namespace: ${{ parameters.namespace }}

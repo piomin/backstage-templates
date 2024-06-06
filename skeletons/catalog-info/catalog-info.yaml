@@ -1,8 +1,8 @@
 {%- if values.componentName %}
   {%- set name = values.componentName %}
-  {%- else %}
+{%- else %}
   {%- set name = values.repoName %}
-  {% endif -%}
+{% endif -%}
 
 apiVersion: backstage.io/v1alpha1
   {%- if values.entityKind %}
@@ -62,11 +62,10 @@ spec:
     - ${{ values.partOf }}
   {%- endif %}
 ---
----
 apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
-  name: ${{values.componentId | dump}}
+  name: ${{values.repoName | dump}}
   {%- if values.description %}
   description: ${{values.description | dump}}
   {%- endif %}
