@@ -92,9 +92,9 @@ spec:
           title: Select a CI method
           type: string
           description: This action will create a CI pipeline for your application based on chosen method
-          default: ../../skeletons/tekton/
+          default: ../../skeletons/ci/tekton/
           enum:
-            - ../../skeletons/tekton/
+            - ../../skeletons/ci/tekton/
           enumNames:
             - Tekton
       dependencies:
@@ -106,7 +106,7 @@ spec:
                 - imageUrl
               properties:
                 ci:
-                  const: ../../skeletons/tekton/
+                  const: ../../skeletons/ci/tekton/
                 imageRepository:
                   title: Select a registry
                   type: string
@@ -257,6 +257,7 @@ spec:
         url: ../../skeletons/gitops/
         copyWithoutTemplating: []
         values:
+          repoName: ${{ parameters.repoName }}
           component_id: ${{ parameters.componentId }}
           description: ${{ parameters.description }}
           destination: https://${{ parameters.repo.host }}/${{ parameters.repo.owner }}/${{parameters.componentId}}-gitops.git
@@ -267,11 +268,6 @@ spec:
           namespace: ${{ parameters.namespace }}
           imageUrl: ${{ parameters.imageUrl }}
           imageRepository: ${{ parameters.imageRepository }}
-#          image_registry: ${{ parameters.image_registry }}
-#          image_host: ${{ parameters.image_host }}
-#          image_organization: ${{ parameters.image_organization }}
-#          image_name: ${{ parameters.componentId }}
-#          image_tag: ${{ parameters.image_tag }}
           port: 8080
           repository_host: ${{ parameters.repo.host }}
           deployment_name: spring-boot-template

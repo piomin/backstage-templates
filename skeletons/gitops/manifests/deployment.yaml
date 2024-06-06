@@ -12,7 +12,7 @@ spec:
       labels:
         app: ${{ values.repoName }}
         app.kubernetes.io/component: backstage
-        backstage.io/kubernetes-id: ${{ values.namespace }}
+        backstage.io/kubernetes-id: ${{ values.repoName }}
     spec:
       containers:
         - name: ${{ values.repoName }}
