@@ -3,15 +3,23 @@ kind: Application
 metadata:
   name: ${{ values.repoName | dump }}
 spec:
-  destination:
-    namespace: ${{ values.namespace }}
-    server: https://kubernetes.default.svc
   project: default
   source:
-    path: manifests/base
-    repoURL: https://${{ values.sourceControl }}/${{ values.orgName }}/${{ values.repoName }}
-    targetRevision: main
+    path: manifests
+    repoURL: ${{ values.destination }}
+    targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ${{ values.namespace }}
   syncPolicy:
     automated:
       prune: true
-      selfHeal: false
+      selfHeal: true
+    syncOptions:
+      - RespectIgnoreDifferences=true
+      - ApplyOutOfSyncOnly=true
+    retry:
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 10m

@@ -264,12 +264,14 @@ spec:
           repository_name: ${{parameters.componentId}}
           git_owner: ${{ parameters.repo.owner }}
           cluster: .apps.cluster-lzrsx.sandbox1850.opentlc.com
-          namespace: ${{ parameters.componentId }}-dev
-          image_registry: ${{ parameters.image_registry }}
-          image_host: ${{ parameters.image_host }}
-          image_organization: ${{ parameters.image_organization }}
-          image_name: ${{ parameters.componentId }}
-          image_tag: ${{ parameters.image_tag }}
+          namespace: ${{ parameters.namespace }}
+          imageUrl: ${{ parameters.imageUrl }}
+          imageRepository: ${{ parameters.imageRepository }}
+#          image_registry: ${{ parameters.image_registry }}
+#          image_host: ${{ parameters.image_host }}
+#          image_organization: ${{ parameters.image_organization }}
+#          image_name: ${{ parameters.componentId }}
+#          image_tag: ${{ parameters.image_tag }}
           port: 8080
           repository_host: ${{ parameters.repo.host }}
           deployment_name: spring-boot-template
