@@ -170,6 +170,8 @@ spec:
           groupId: ${{ parameters.groupId }}
           artifactId: ${{ parameters.artifactId }}
           javaPackage: ${{ parameters.javaPackage }}
+          host: ${{ parameters.repo.host }}
+          destination: ${{ parameters.repo.owner }}/${{ parameters.componentId }}
           sourceControl: github.com
 
     - id: ciTemplate
@@ -194,6 +196,8 @@ spec:
           groupId: ${{ parameters.groupId }}
           artifactId: ${{ parameters.artifactId }}
           javaPackage: ${{ parameters.javaPackage }}
+          host: ${{ parameters.repo.host }}
+          destination: ${{ parameters.repo.owner }}/${{ parameters.componentId }}
           sourceControl: github.com
 
     - id: catalogTemplate
@@ -218,6 +222,8 @@ spec:
           groupId: ${{ parameters.groupId }}
           artifactId: ${{ parameters.artifactId }}
           javaPackage: ${{ parameters.javaPackage }}
+          host: ${{ parameters.repo.host }}
+          destination: ${{ parameters.repo.owner }}/${{ parameters.componentId }}
           sourceControl: github.com
 
 #    - id: publish
