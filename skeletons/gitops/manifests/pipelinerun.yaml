@@ -13,11 +13,11 @@ metadata:
 spec:
   params:
     - name: source-repo
-      value: 'https://${{ values.sourceControl }}/${{ values.orgName }}/${{ values.repoName }}.git'
+      value: 'https://${{ values.host }}/${{ values.orgName }}/${{ values.repoName }}.git'
     - name: source-branch
       value: main
     - name: output-image
-      value: ${{ values.imageRepository }}/${{ values.imageUrl }}/${{ values.repoName }}
+      value: ${{ values.imageRepository }}/${{ values.imageUrl }}
   pipelineRef:
     name: ${{ values.repoName }}-pipeline
   serviceAccountName: pipeline

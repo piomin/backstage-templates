@@ -266,6 +266,7 @@ spec:
           git_owner: ${{ parameters.repo.owner }}
           cluster: .apps.cluster-lzrsx.sandbox1850.opentlc.com
           namespace: ${{ parameters.namespace }}
+          imageBuilder: s2i-java
           imageUrl: ${{ parameters.imageUrl }}
           imageRepository: ${{ parameters.imageRepository }}
           port: 8080
