@@ -8,7 +8,7 @@ metadata:
     argocd.argoproj.io/hook-delete-policy: HookSucceeded
   labels:
     tekton.dev/pipeline: ${{ values.repoName }}-pipeline
-    backstage.io/kubernetes-id: {{ values.repoName }}
+    backstage.io/kubernetes-id: ${{ values.repoName }}
     type: pipeline
 spec:
   params:
