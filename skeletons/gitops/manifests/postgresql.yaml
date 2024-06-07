@@ -39,8 +39,8 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     template: postgresql-persistent-template
-    annotations:
-      argocd.argoproj.io/sync-wave: "2"
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   name: postgresql
 spec:
   accessModes:
@@ -70,8 +70,7 @@ spec:
         name: postgresql
     spec:
       containers:
-        - capabilities: {}
-          env:
+        - env:
             - name: POSTGRESQL_USER
               valueFrom:
                 secretKeyRef:

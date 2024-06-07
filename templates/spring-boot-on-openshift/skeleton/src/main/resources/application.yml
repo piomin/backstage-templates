@@ -2,9 +2,9 @@ spring:
   application:
     name: person-service
   datasource:
-    url: jdbc:postgresql://${DATABASE_HOST}:5432/${DATABASE_NAME}
+    url: jdbc:postgresql://postgresql:5432/${DATABASE_NAME}
     username: ${DATABASE_USER}
-    password: ${DATABASE_PASS}
+    password: ${DATABASE_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: create
