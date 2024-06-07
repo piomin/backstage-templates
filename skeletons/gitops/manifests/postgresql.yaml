@@ -49,11 +49,10 @@ spec:
     requests:
       storage: 1Gi
 ---
-apiVersion: apps.openshift.io/v1
-kind: DeploymentConfig
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   annotations:
-    template.alpha.openshift.io/wait-for-ready: "true"
     argocd.argoproj.io/sync-wave: "2"
   labels:
     template: postgresql-persistent-template
@@ -127,14 +126,3 @@ spec:
         - name: postgresql-data
           persistentVolumeClaim:
             claimName: postgresql
-  triggers:
-    - imageChangeParams:
-        automatic: true
-        containerNames:
-          - postgresql
-        from:
-          kind: ImageStreamTag
-          name: postgresql:latest
-          namespace: openshift
-      type: ImageChange
-    - type: ConfigChange
