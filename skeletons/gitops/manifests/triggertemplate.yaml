@@ -3,6 +3,8 @@ kind: TriggerTemplate
 metadata:
   name: ${{ values.repoName }}-run-pipeline
   namespace: ${{ values.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   params:
     - name: git-revision

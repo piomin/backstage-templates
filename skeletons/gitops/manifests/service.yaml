@@ -6,6 +6,8 @@ metadata:
     app: ${{ values.repoName }}
     app.kubernetes.io/component: backstage
     backstage.io/kubernetes-id: ${{ values.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "7"
 spec:
   ports:
     - name: http-${{ values.port }}

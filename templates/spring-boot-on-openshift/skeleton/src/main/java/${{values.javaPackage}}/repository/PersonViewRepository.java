@@ -1,4 +1,4 @@
-package ${{ values.groupId }};
+package ${{ values.groupId }}.repository;
 
 import com.blazebit.persistence.spring.data.repository.EntityViewRepository;
 import org.springframework.transaction.annotation.Transactional;

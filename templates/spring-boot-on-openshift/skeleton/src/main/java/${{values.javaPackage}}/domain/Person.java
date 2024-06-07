@@ -1,4 +1,4 @@
-package ${{ values.groupId }};
+package ${{ values.groupId }}.domain;
 
 import jakarta.persistence.*;
 

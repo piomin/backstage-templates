@@ -6,6 +6,8 @@ metadata:
   labels:
     type: pipeline
     backstage.io/kubernetes-id: ${{ values.repoName }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   params:
     - name: source-repo

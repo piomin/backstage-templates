@@ -3,6 +3,8 @@ kind: EventListener
 metadata:
   name: ${{ values.repoName }}-el
   namespace: ${{ values.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   serviceAccountName: pipeline
   triggers:

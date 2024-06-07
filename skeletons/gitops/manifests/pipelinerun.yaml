@@ -7,6 +7,8 @@ metadata:
     tekton.dev/pipeline: ${{ values.repoName }}-pipeline
     backstage.io/kubernetes-id: ${{ values.repoName }}
     type: pipeline
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
 spec:
   params:
     - name: source-repo
