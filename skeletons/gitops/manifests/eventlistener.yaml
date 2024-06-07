@@ -8,13 +8,13 @@ spec:
   triggers:
     - bindings:
         - kind: ClusterTriggerBinding
-          ref: github-push
+          ref: gitlab-push
       interceptors:
         - params:
             - name: eventTypes
               value: ['push']
           ref:
-            name: github
+            name: gitlab
         - params:
             - name: git-revision
               value: >-
