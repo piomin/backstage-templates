@@ -4,6 +4,9 @@ metadata:
   name: ${{ values.repoName }}
   annotations:
     argocd.argoproj.io/sync-wave: "7"
+  labels:
+    backstage.io/kubernetes-id: ${{ values.repoName }}
+    app: ${{ values.repoName }}
 spec:
   replicas: 1
   selector:

@@ -55,6 +55,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "2"
   labels:
+    backstage.io/kubernetes-id: ${{ values.repoName }}
     template: postgresql-persistent-template
   name: postgresql
 spec:
