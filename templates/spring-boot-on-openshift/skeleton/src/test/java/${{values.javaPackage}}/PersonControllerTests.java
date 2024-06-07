@@ -1,4 +1,4 @@
-package ${{ values.javaPackage }};
+package ${{ values.groupId }};
 
 import org.instancio.Instancio;
 import org.instancio.Select;

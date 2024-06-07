@@ -1,4 +1,4 @@
-package ${{ values.javaPackage }};
+package ${{ values.groupId }};
 
 import com.blazebit.persistence.view.EntityView;
 import com.blazebit.persistence.view.IdMapping;

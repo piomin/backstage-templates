@@ -1,4 +1,4 @@
-package ${{ values.javaPackage }};
+package ${{ values.groupId }};
 
 import com.blazebit.persistence.Criteria;
 import com.blazebit.persistence.CriteriaBuilderFactory;

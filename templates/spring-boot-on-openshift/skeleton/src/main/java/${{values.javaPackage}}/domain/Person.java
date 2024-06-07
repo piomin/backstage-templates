@@ -1,4 +1,4 @@
-package ${{ values.javaPackage }};
+package ${{ values.groupId }};
 
 import jakarta.persistence.*;
 
