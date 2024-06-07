@@ -27,6 +27,7 @@ spec:
         orgName:
           title: Organization Name
           type: string
+          default: development
         repoName:
           title: Repository Name
           type: string
@@ -43,14 +44,6 @@ spec:
               kind:
                 - Group
                 - User
-#        system:
-#          title: System
-#          type: string
-#          ui:field: EntityPicker
-#          ui:options:
-#            catalogFilter:
-#              kind:
-#                - System
         port:
           title: Port
           type: number
@@ -257,6 +250,7 @@ spec:
         url: ../../skeletons/gitops/
         copyWithoutTemplating: []
         values:
+          orgName: ${{ parameters.orgName }}
           repoName: ${{ parameters.repoName }}
           component_id: ${{ parameters.componentId }}
           description: ${{ parameters.description }}
@@ -273,6 +267,7 @@ spec:
           repository_host: ${{ parameters.repo.host }}
           deployment_name: spring-boot-template
           user: ${{ user.entity.metadata.name }}
+          host: ${{ parameters.repo.host }}
         targetPath: ./tenant-gitops
 
     - id: publish-gitops
