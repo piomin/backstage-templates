@@ -5,6 +5,7 @@ metadata:
     template.openshift.io/expose-database_name: '{.data[''database-name'']}'
     template.openshift.io/expose-password: '{.data[''database-password'']}'
     template.openshift.io/expose-username: '{.data[''database-user'']}'
+    argocd.argoproj.io/sync-wave: "2"
   labels:
     template: postgresql-persistent-template
   name: postgresql
@@ -18,6 +19,7 @@ kind: Service
 metadata:
   annotations:
     template.openshift.io/expose-uri: postgres://{.spec.clusterIP}:{.spec.ports[?(.name=="postgresql")].port}
+    argocd.argoproj.io/sync-wave: "2"
   labels:
     template: postgresql-persistent-template
   name: postgresql
@@ -32,24 +34,27 @@ spec:
   sessionAffinity: None
   type: ClusterIP
 ---
-    apiVersion: v1
-    kind: PersistentVolumeClaim
-    metadata:
-      labels:
-        template: postgresql-persistent-template
-      name: postgresql
-    spec:
-      accessModes:
-        - ReadWriteOnce
-      resources:
-        requests:
-          storage: 1Gi
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    template: postgresql-persistent-template
+    annotations:
+      argocd.argoproj.io/sync-wave: "2"
+  name: postgresql
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
 ---
 apiVersion: apps.openshift.io/v1
 kind: DeploymentConfig
 metadata:
   annotations:
     template.alpha.openshift.io/wait-for-ready: "true"
+    argocd.argoproj.io/sync-wave: "2"
   labels:
     template: postgresql-persistent-template
   name: postgresql
