@@ -3,10 +3,10 @@ package ${{ values.groupId }};
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
-import pl.redhat.samples.person.domain.Person;
-import pl.redhat.samples.person.repository.PersonRepository;
-import pl.redhat.samples.person.repository.PersonViewRepository;
-import pl.redhat.samples.person.view.PersonView;
+import ${{ values.groupId }}.domain.Person;
+import ${{ values.groupId }}.repository.PersonRepository;
+import ${{ values.groupId }}.repository.PersonViewRepository;
+import ${{ values.groupId }}.view.PersonView;
 
 import java.util.List;
 

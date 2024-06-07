@@ -3,9 +3,6 @@ kind: PipelineRun
 metadata:
   name: ${{ values.repoName }}-pipeline-run-init
   namespace: ${{ values.namespace }}
-  annotations:
-    argocd.argoproj.io/hook: PostSync
-    argocd.argoproj.io/hook-delete-policy: HookSucceeded
   labels:
     tekton.dev/pipeline: ${{ values.repoName }}-pipeline
     backstage.io/kubernetes-id: ${{ values.repoName }}
