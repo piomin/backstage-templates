@@ -23,3 +23,19 @@ spec:
             - name: http-${{ values.port }}
               containerPort: ${{ values.port }}
               protocol: TCP
+          env:
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  key: database-user
+                  name: postgresql
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: database-password
+                  name: postgresql
+            - name: DATABASE_NAME
+              valueFrom:
+                secretKeyRef:
+                  key: database-name
+                  name: postgresql
