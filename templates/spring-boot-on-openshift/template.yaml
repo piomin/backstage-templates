@@ -82,7 +82,7 @@ spec:
         javaPackage:
           title: Java Package Namespace
           type: string
-          default: pl/piomin/spring
+          default: pl.piomin.spring
           description: Name for the Java Package (ensure to use the / character as this is used for folder structure) should match Group ID and Artifact ID
     - title: Provide information about the CI method
       required:
