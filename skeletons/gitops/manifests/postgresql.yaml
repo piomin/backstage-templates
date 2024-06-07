@@ -86,15 +86,17 @@ spec:
                 secretKeyRef:
                   key: database-name
                   name: postgresql
-          image: ' '
+          image: image-registry.openshift-image-registry.svc:5000/openshift/postgresql@sha256:3da6f6cf4f24e45d63cacc85f5712309faadb4a0d409ab065c7a78b2fd62636d
           imagePullPolicy: IfNotPresent
           livenessProbe:
             exec:
               command:
                 - /usr/libexec/check-container
                 - --live
+            failureThreshold: 3
             initialDelaySeconds: 120
-            timeoutSeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
           name: postgresql
           ports:
             - containerPort: 5432
@@ -103,7 +105,10 @@ spec:
             exec:
               command:
                 - /usr/libexec/check-container
+            failureThreshold: 3
             initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
             timeoutSeconds: 1
           resources:
             limits:
@@ -112,6 +117,7 @@ spec:
             capabilities: {}
             privileged: false
           terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
           volumeMounts:
             - mountPath: /var/lib/pgsql/data
               name: postgresql-data
@@ -130,6 +136,5 @@ spec:
           kind: ImageStreamTag
           name: postgresql:latest
           namespace: openshift
-        lastTriggeredImage: ""
       type: ImageChange
     - type: ConfigChange
