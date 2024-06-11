@@ -1,0 +1,3 @@
+spring.application.name: first-service
+
+springdoc.show-actuator: true

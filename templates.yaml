@@ -7,3 +7,4 @@ spec:
   type: url
   targets:
     - templates/spring-boot-on-openshift/template.yaml
+    - templates/spring-boot-basic/template.yaml

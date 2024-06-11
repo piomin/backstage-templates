@@ -1,0 +1,87 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: spring-boot-basic-template
+  title: Create a Spring Boot app
+  description: Create a Spring Boot app
+  tags:
+    - spring-boot
+    - java
+    - maven
+    - circleci
+    - renovate
+    - sonarqube
+spec:
+  owner: piomin
+  system: janus-idp
+  type: service
+
+  parameters:
+    - title: Provide information about the new component
+      required:
+        - orgName
+        - appName
+        - domainName
+        - groupId
+        - javaPackage
+        - description
+      properties:
+        orgName:
+          title: Organization name
+          type: string
+          default: piomin
+        appName:
+          title: App name
+          type: string
+          default: sample-spring-boot-app
+        domainName:
+          title: Name of the domain object
+          type: string
+          default: Person
+        groupId:
+          title: Maven Group ID
+          type: string
+          default: pl.piomin.services
+        javaPackage:
+          title: Java package directory
+          type: string
+          default: pl/piomin/services
+        description:
+          title: Description
+          type: string
+          default: Sample Spring Boot App
+  steps:
+    - id: sourceCodeTemplate
+      name: Generating the Source Code Component
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          orgName: ${{ parameters.orgName }}
+          appName: ${{ parameters.appName }}
+          groupId: ${{ parameters.groupId }}
+          javaPackage: ${{ parameters.javaPackage }}
+
+    - id: publish
+      name: Publishing to the Source Code Repository
+      action: publish:github
+      input:
+        allowedHosts: ['github.com']
+        description: ${{ parameters.description }}
+        repoUrl: github.com?owner=${{ parameters.orgName }}&repo=${{ parameters.appName }}
+        defaultBranch: main
+
+    - id: register
+      name: Registering the Catalog Info Component
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: /catalog-info.yaml
+
+  output:
+    links:
+      - title: Open the Source Code Repository
+        url: ${{ steps.publish.output.remoteUrl }}
+      - title: Open the Catalog Info Component
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}
