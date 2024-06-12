@@ -22,11 +22,11 @@ public class ${{ values.domainName }}Controller {
 
     @GetMapping("/{id}")
     public ${{ values.domainName }} findById(@PathVariable("id") Long id) {
-        ${{ values.domainName }} p = objs.stream().filter(it -> it.getId().equals(id))
+        ${{ values.domainName }} obj = objs.stream().filter(it -> it.getId().equals(id))
                 .findFirst()
                 .orElseThrow();
-        LOG.info("Found: {}", p.getId());
-        return p;
+        LOG.info("Found: {}", obj.getId());
+        return obj;
     }
 
     @PostMapping
@@ -40,7 +40,7 @@ public class ${{ values.domainName }}Controller {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Long id) {
         ${{ values.domainName }} obj = objs.stream().filter(it -> it.getId().equals(id)).findFirst().orElseThrow();
-        objs.remove(p);
+        objs.remove(obj);
         LOG.info("Removed: {}", id);
     }
 
