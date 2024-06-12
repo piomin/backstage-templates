@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/${{ values.domainName }}")
+@RequestMapping("/${{ values.apiPath }}")
 public class ${{ values.domainName }}Controller {
 
     private final Logger LOG = LoggerFactory.getLogger(${{ values.domainName }}Controller.class);
