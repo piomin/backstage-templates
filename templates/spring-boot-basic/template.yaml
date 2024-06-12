@@ -22,6 +22,7 @@ spec:
         - orgName
         - appName
         - domainName
+        - repoBranchName
         - groupId
         - javaPackage
         - description
@@ -38,6 +39,10 @@ spec:
           title: Name of the domain object
           type: string
           default: Person
+        repoBranchName:
+          title: Name of the branch in the Git repository
+          type: string
+          default: main
         groupId:
           title: Maven Group ID
           type: string
@@ -59,7 +64,7 @@ spec:
         values:
           orgName: ${{ parameters.orgName }}
           appName: ${{ parameters.appName }}
-          domainName: ${{ parameters.appName }}
+          domainName: ${{ parameters.domainName }}
           groupId: ${{ parameters.groupId }}
           javaPackage: ${{ parameters.javaPackage }}
 
@@ -70,7 +75,7 @@ spec:
         allowedHosts: ['github.com']
         description: ${{ parameters.description }}
         repoUrl: github.com?owner=${{ parameters.orgName }}&repo=${{ parameters.appName }}
-        defaultBranch: main
+        defaultBranch: ${{ parameters.repoBranchName }}
         repoVisibility: public
 
     - id: register
