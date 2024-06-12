@@ -46,11 +46,11 @@ public class ${{ values.domainName }}Controller {
 
     @PutMapping
     public void update(@RequestBody ${{ values.domainName }} obj) {
-        ${{ values.domainName }} obj = objs.stream()
+        ${{ values.domainName }} objTmp = objs.stream()
                 .filter(it -> it.getId().equals(obj.getId()))
                 .findFirst()
                 .orElseThrow();
-        objs.set(objs.indexOf(obj), obj);
+        objs.set(objs.indexOf(objTmp), obj);
         LOG.info("Updated: {}", obj.getId());
     }
 
