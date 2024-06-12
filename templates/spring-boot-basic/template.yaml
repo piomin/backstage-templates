@@ -59,6 +59,7 @@ spec:
         values:
           orgName: ${{ parameters.orgName }}
           appName: ${{ parameters.appName }}
+          domainName: ${{ parameters.appName }}
           groupId: ${{ parameters.groupId }}
           javaPackage: ${{ parameters.javaPackage }}
 
