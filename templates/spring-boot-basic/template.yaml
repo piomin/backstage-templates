@@ -25,6 +25,7 @@ spec:
         - repoBranchName
         - groupId
         - javaPackage
+        - apiPath
         - description
       properties:
         orgName:
@@ -51,6 +52,10 @@ spec:
           title: Java package directory
           type: string
           default: pl/piomin/services
+        apiPath:
+          title: REST API path
+          type: string
+          default: /api/v1
         description:
           title: Description
           type: string
@@ -67,6 +72,7 @@ spec:
           domainName: ${{ parameters.domainName }}
           groupId: ${{ parameters.groupId }}
           javaPackage: ${{ parameters.javaPackage }}
+          apiPath: ${{ parameters.apiPath }}
 
     - id: publish
       name: Publishing to the Source Code Repository
