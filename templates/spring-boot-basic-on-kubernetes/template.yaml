@@ -35,7 +35,7 @@ spec:
         appName:
           title: App name
           type: string
-          default: sample-spring-boot-app
+          default: sample-spring-boot-app-k8s
         domainName:
           title: Name of the domain object
           type: string
@@ -90,6 +90,15 @@ spec:
       input:
         repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
         catalogInfoPath: /catalog-info.yaml
+
+    - id: sonarqube
+      name: Follow new project on Sonarcloud
+      action: http:backstage:request
+      input:
+        method: 'POST'
+        path: '/proxy/sonarqube/api/projects/create?name=${{ parameters.appName }}&organization=${{ parameters.orgName }}&project=${{ parameters.orgName }}_${{ parameters.appName }}'
+        headers:
+          content-type: 'application/json'
 
     - id: circleci
       name: Follow new project on CircleCI
