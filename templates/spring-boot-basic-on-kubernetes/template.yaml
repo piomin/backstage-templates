@@ -91,6 +91,15 @@ spec:
         repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
         catalogInfoPath: /catalog-info.yaml
 
+    - id: circleci
+      name: Follow new project on CircleCI
+      action: http:backstage:request
+      input:
+        method: 'POST'
+        path: '/proxy/circleci/api/project/gh/${{ parameters.orgName }}/${{ parameters.appName }}/follow'
+        headers:
+          content-type: 'application/json'
+
   output:
     links:
       - title: Open the Source Code Repository

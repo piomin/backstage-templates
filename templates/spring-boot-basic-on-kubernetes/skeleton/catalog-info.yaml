@@ -1,0 +1,20 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.appName }}
+  title: ${{ values.appName }}
+  annotations:
+    circleci.com/project-slug: github/${{ values.orgName }}/${{ values.appName }}
+    github.com/project-slug: ${{ values.orgName }}/${{ values.appName }}
+    sonarqube.org/project-key: ${{ values.orgName }}_${{ values.appName }}
+  tags:
+    - spring-boot
+    - java
+    - maven
+    - circleci
+    - renovate
+    - sonarqube
+spec:
+  type: service
+  owner: piotr.minkowski@gmail.com
+  lifecycle: experimental
