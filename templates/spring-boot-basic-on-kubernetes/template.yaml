@@ -92,6 +92,25 @@ spec:
         repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
         catalogInfoPath: /catalog-info.yaml
 
+    - id: configCodeTemplate
+      name: Generating the Config Code Component
+      action: fetch:template
+      input:
+        url: ../../skeletons/argocd
+        values:
+          orgName: ${{ parameters.orgName }}
+          appName: ${{ parameters.appName }}
+
+    - id: publish
+      name: Publishing to the Config Code Repository
+      action: publish:github
+      input:
+        allowedHosts: ['github.com']
+        description: ${{ parameters.description }}
+        repoUrl: github.com?owner=${{ parameters.orgName }}&repo=${{ parameters.appName }}-config
+        defaultBranch: ${{ parameters.repoBranchName }}
+        repoVisibility: public
+
     - id: sonarqube
       name: Follow new project on Sonarcloud
       action: http:backstage:request
