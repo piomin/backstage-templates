@@ -1,9 +1,9 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: spring-boot-basic-template
-  title: Create a Spring Boot app
-  description: Create a Spring Boot app
+  name: spring-boot-basic-on-kubernetes-template
+  title: Create a Spring Boot app for Kubernetes
+  description: Create a Spring Boot app for Kubernetes
   tags:
     - spring-boot
     - java
@@ -13,7 +13,7 @@ metadata:
     - sonarqube
 spec:
   owner: piomin
-  system: janus-idp
+  system: microservices
   type: service
 
   parameters:
