@@ -3,10 +3,9 @@ kind: Service
 metadata:
   name: ${{ values.appName }}
   labels:
-    backstage.io/kubernetes-id: ${{ values.appName }}
     app: ${{ values.appName }}
   annotations:
-    argocd/app-name: ${{ values.appName }}
+    backstage.io/kubernetes-id: ${{ values.appName }}
 spec:
   type: ClusterIP
   selector:

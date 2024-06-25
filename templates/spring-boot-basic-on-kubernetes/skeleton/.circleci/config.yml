@@ -89,7 +89,7 @@ jobs:
       - checkout
       - run:
           name: Build and push image to DockerHub
-          command: mvn compile jib:build -Djib.to.image=${{ values.orgName }}/${{ values.appName }}:latest -Djib.to.auth.username=${DOCKER_LOGIN} -Djib.to.auth.password=${DOCKER_PASSWORD} -DskipTests
+          command: mvn compile jib:build -Pjib -Djib.to.image=${{ values.orgName }}/${{ values.appName }}:latest -Djib.to.auth.username=${DOCKER_LOGIN} -Djib.to.auth.password=${DOCKER_PASSWORD} -DskipTests
 
 executors:
   machine_executor_amd64:

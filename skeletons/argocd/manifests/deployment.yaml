@@ -3,10 +3,7 @@ kind: Deployment
 metadata:
   name: ${{ values.appName }}
   labels:
-    backstage.io/kubernetes-id: ${{ values.appName }}
     app: ${{ values.appName }}
-  annotations:
-    argocd/app-name: ${{ values.appName }}
 spec:
   selector:
     matchLabels:
@@ -19,10 +16,11 @@ spec:
         prometheus.io/port: "8080"
       labels:
         app: ${{ values.appName }}
+        backstage.io/kubernetes-id: ${{ values.appName }}
     spec:
       containers:
         - name: ${{ values.appName }}
-          image: ${{ values.orgName }}/${{ values.appName }}
+          image: ${{ values.orgName }}/${{ values.appName }}:latest
           ports:
             - containerPort: 8080
               name: http
