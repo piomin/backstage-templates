@@ -129,6 +129,34 @@ spec:
         headers:
           content-type: 'application/json'
 
+    - id: argocd
+      name: Create New Application in Argo CD
+      action: http:backstage:request
+      input:
+        method: 'POST'
+        path: '/proxy/argocd/api/applications'
+        headers:
+          content-type: 'application/json'
+        body:
+          metadata:
+            name: ${{ parameters.appName }}
+            namespace: default
+          spec:
+            project: default
+            source:
+              repoURL: https://github.com/${{ parameters.orgName }}/${{ parameters.appName }}-config.git
+              targetRevision: master
+              path: manifests
+            destination:
+              server: https://kubernetes.default.svc
+              namespace: demo
+            syncPolicy:
+              automated:
+                prune: true
+                selfHeal: true
+              syncOptions:
+                - CreateNamespace=true
+
   output:
     links:
       - title: Open the Source Code Repository
