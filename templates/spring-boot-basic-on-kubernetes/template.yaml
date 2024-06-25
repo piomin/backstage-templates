@@ -28,6 +28,7 @@ spec:
         - groupId
         - javaPackage
         - apiPath
+        - namespace
         - description
       properties:
         orgName:
@@ -58,6 +59,10 @@ spec:
           title: REST API path
           type: string
           default: /api/v1
+        namespace:
+          title: The target namespace on Kubernetes
+          type: string
+          default: demo
         description:
           title: Description
           type: string
@@ -143,7 +148,7 @@ spec:
         body:
           metadata:
             name: ${{ parameters.appName }}
-            namespace: default
+            namespace: argocd
           spec:
             project: default
             source:
@@ -152,7 +157,7 @@ spec:
               path: manifests
             destination:
               server: https://kubernetes.default.svc
-              namespace: demo
+              namespace: ${{ parameters.namespace }}
             syncPolicy:
               automated:
                 prune: true
