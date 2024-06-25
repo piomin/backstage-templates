@@ -23,7 +23,7 @@ spec:
           readinessProbe:
             httpGet:
               port: 8080
-              path: /readiness
+              path: /actuator/health/readiness
               scheme: HTTP
             timeoutSeconds: 1
             periodSeconds: 10
