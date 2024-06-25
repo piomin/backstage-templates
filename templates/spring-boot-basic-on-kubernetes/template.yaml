@@ -12,6 +12,7 @@ metadata:
     - renovate
     - sonarqube
     - kubernetes
+    - argocd
 spec:
   owner: piomin
   system: microservices
@@ -100,6 +101,7 @@ spec:
         values:
           orgName: ${{ parameters.orgName }}
           appName: ${{ parameters.appName }}
+        targetPath: ./gitops
 
     - id: publish
       name: Publishing to the Config Code Repository
@@ -109,6 +111,7 @@ spec:
         description: ${{ parameters.description }}
         repoUrl: github.com?owner=${{ parameters.orgName }}&repo=${{ parameters.appName }}-config
         defaultBranch: ${{ parameters.repoBranchName }}
+        sourcePath: ./gitops
         repoVisibility: public
 
     - id: sonarqube
