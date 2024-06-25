@@ -5,6 +5,8 @@ metadata:
   labels:
     backstage.io/kubernetes-id: ${{ values.appName }}
     app: ${{ values.appName }}
+  annotations:
+    argocd/app-name: ${{ values.appName }}
 spec:
   selector:
     matchLabels:
