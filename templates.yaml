@@ -9,3 +9,4 @@ spec:
     - templates/spring-boot-on-openshift/template.yaml
     - templates/spring-boot-basic/template.yaml
     - templates/spring-boot-basic-on-kubernetes/template.yaml
+    - templates/spring-boot-basic-on-openshift/template.yaml
