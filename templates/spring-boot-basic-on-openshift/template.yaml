@@ -89,6 +89,7 @@ spec:
           groupId: ${{ parameters.groupId }}
           javaPackage: ${{ parameters.javaPackage }}
           apiPath: ${{ parameters.apiPath }}
+          namespace: ${{ parameters.namespace }}
 
     - id: publish
       name: Publishing to the Source Code Repository
