@@ -77,66 +77,66 @@ spec:
           title: Auth Token for Sonarqube
           type: string
   steps:
-    - id: sourceCodeTemplate
-      name: Generating the Source Code Component
-      action: fetch:template
-      input:
-        url: ./skeleton
-        values:
-          orgName: ${{ parameters.orgName }}
-          appName: ${{ parameters.appName }}
-          domainName: ${{ parameters.domainName }}
-          groupId: ${{ parameters.groupId }}
-          javaPackage: ${{ parameters.javaPackage }}
-          apiPath: ${{ parameters.apiPath }}
-          namespace: ${{ parameters.namespace }}
-
-    - id: publish
-      name: Publishing to the Source Code Repository
-      action: publish:github
-      input:
-        allowedHosts: ['github.com']
-        description: ${{ parameters.description }}
-        repoUrl: github.com?owner=${{ parameters.orgName }}&repo=${{ parameters.appName }}
-        defaultBranch: ${{ parameters.repoBranchName }}
-        repoVisibility: public
-
-    - id: register
-      name: Registering the Catalog Info Component
-      action: catalog:register
-      input:
-        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
-        catalogInfoPath: /catalog-info.yaml
-
-    - id: configCodeTemplate
-      name: Generating the Config Code Component
-      action: fetch:template
-      input:
-        url: ../../skeletons/argocd
-        values:
-          orgName: ${{ parameters.orgName }}
-          appName: ${{ parameters.appName }}
-          registryUrl: ${{ parameters.registryUrl }}
-          namespace: ${{ parameters.namespace }}
-          repoBranchName: ${{ parameters.repoBranchName }}
-        targetPath: ./gitops
-
-    - id: publish
-      name: Publishing to the Config Code Repository
-      action: publish:github
-      input:
-        allowedHosts: ['github.com']
-        description: ${{ parameters.description }}
-        repoUrl: github.com?owner=${{ parameters.orgName }}&repo=${{ parameters.appName }}-config
-        defaultBranch: ${{ parameters.repoBranchName }}
-        sourcePath: ./gitops
-        repoVisibility: public
+#    - id: sourceCodeTemplate
+#      name: Generating the Source Code Component
+#      action: fetch:template
+#      input:
+#        url: ./skeleton
+#        values:
+#          orgName: ${{ parameters.orgName }}
+#          appName: ${{ parameters.appName }}
+#          domainName: ${{ parameters.domainName }}
+#          groupId: ${{ parameters.groupId }}
+#          javaPackage: ${{ parameters.javaPackage }}
+#          apiPath: ${{ parameters.apiPath }}
+#          namespace: ${{ parameters.namespace }}
+#
+#    - id: publish
+#      name: Publishing to the Source Code Repository
+#      action: publish:github
+#      input:
+#        allowedHosts: ['github.com']
+#        description: ${{ parameters.description }}
+#        repoUrl: github.com?owner=${{ parameters.orgName }}&repo=${{ parameters.appName }}
+#        defaultBranch: ${{ parameters.repoBranchName }}
+#        repoVisibility: public
+#
+#    - id: register
+#      name: Registering the Catalog Info Component
+#      action: catalog:register
+#      input:
+#        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+#        catalogInfoPath: /catalog-info.yaml
+#
+#    - id: configCodeTemplate
+#      name: Generating the Config Code Component
+#      action: fetch:template
+#      input:
+#        url: ../../skeletons/argocd
+#        values:
+#          orgName: ${{ parameters.orgName }}
+#          appName: ${{ parameters.appName }}
+#          registryUrl: ${{ parameters.registryUrl }}
+#          namespace: ${{ parameters.namespace }}
+#          repoBranchName: ${{ parameters.repoBranchName }}
+#        targetPath: ./gitops
+#
+#    - id: publish
+#      name: Publishing to the Config Code Repository
+#      action: publish:github
+#      input:
+#        allowedHosts: ['github.com']
+#        description: ${{ parameters.description }}
+#        repoUrl: github.com?owner=${{ parameters.orgName }}&repo=${{ parameters.appName }}-config
+#        defaultBranch: ${{ parameters.repoBranchName }}
+#        sourcePath: ./gitops
+#        repoVisibility: public
 
     - id: sonarqube
       name: Create new project on Sonarcloud
       action: sonarqube:create-project
       input:
-        baseUrl: 'https://sonarcloud.com'
+        baseUrl: 'https://sonarcloud.io'
         token: ${{ parameters.sonarToken }}
         name: '${{ parameters.appName }}'
         key: '${{ parameters.orgName }}_${{ parameters.appName }}'
