@@ -137,7 +137,7 @@ spec:
       action: http:backstage:request
       input:
         method: 'POST'
-        path: '/api/proxy/sonarqube/projects/create?name=${{ parameters.appName }}&organization=${{ parameters.orgName }}&project=${{ parameters.orgName }}_${{ parameters.appName }}'
+        path: '/proxy/sonarqube/projects/create?name=${{ parameters.appName }}&organization=${{ parameters.orgName }}&project=${{ parameters.orgName }}_${{ parameters.appName }}'
         headers:
           content-type: 'application/json'
 
