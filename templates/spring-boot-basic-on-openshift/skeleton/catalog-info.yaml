@@ -15,7 +15,8 @@ metadata:
     - spring-boot
     - java
     - maven
-    - circleci
+    - tekton
+    - argocd
     - renovate
     - sonarqube
 spec:
