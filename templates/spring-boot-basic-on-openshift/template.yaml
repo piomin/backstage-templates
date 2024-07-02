@@ -132,14 +132,14 @@ spec:
 #        sourcePath: ./gitops
 #        repoVisibility: public
 
-    - id: sonarqube
-      name: Create a new project on Sonarcloud
-      action: http:backstage:request
-      input:
-        method: 'POST'
-        path: '/proxy/sonarqube/projects/create?name=${{ parameters.appName }}&organization=${{ parameters.orgName }}&project=${{ parameters.orgName }}_${{ parameters.appName }}'
-        headers:
-          content-type: 'application/json'
+#    - id: sonarqube
+#      name: Create a new project on Sonarcloud
+#      action: http:backstage:request
+#      input:
+#        method: 'POST'
+#        path: '/proxy/sonarqube/projects/create?name=${{ parameters.appName }}&organization=${{ parameters.orgName }}&project=${{ parameters.orgName }}_${{ parameters.appName }}'
+#        headers:
+#          content-type: 'application/json'
 
 #    - id: sonarqube
 #      name: Create new project on Sonarcloud
@@ -148,7 +148,6 @@ spec:
 #        baseUrl: 'https://sonarcloud.io'
 #        token: ${{ parameters.sonarToken }}
 #        name: '${{ parameters.appName }}'
-#        organization: '${{ parameters.orgName }}'
 #        key: '${{ parameters.orgName }}_${{ parameters.appName }}'
 #        branch: 'master'
 #        visibility: 'public'
