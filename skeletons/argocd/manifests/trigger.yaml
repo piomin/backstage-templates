@@ -23,8 +23,13 @@ spec:
         serviceAccountName: pipeline
         workspaces:
           - name: source-dir
-            persistentVolumeClaim:
-              claimName: kotlin-pipeline-pvc
+            volumeClaimTemplate:
+              spec:
+                accessModes:
+                  - ReadWriteOnce
+                resources:
+                  requests:
+                    storage: 1Gi
           - name: sonar-settings
             secret:
               secretName: sonarqube-secret-token
