@@ -1,0 +1,67 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: ${{ values.appName }}
+spec:
+  params:
+    - default: ${{ values.repoBranchName }}
+      description: The git revision
+      name: git-revision
+    - description: The git repository url
+      name: git-repo-url
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1beta1
+      kind: PipelineRun
+      metadata:
+        generateName: ${{ values.appName }}-run-
+      spec:
+        params:
+          - name: git-revision
+            value: $(tt.params.git-revision)
+        pipelineRef:
+          name: ${{ values.appName }}
+        serviceAccountName: pipeline
+        workspaces:
+          - name: source-dir
+            persistentVolumeClaim:
+              claimName: kotlin-pipeline-pvc
+          - name: sonar-settings
+            secret:
+              secretName: sonarqube-secret-token
+          - configMap:
+              name: maven-settings
+            name: maven-settings
+---
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: ${{ values.appName }}
+spec:
+  serviceAccountName: pipeline
+  triggers:
+    - bindings:
+        - kind: ClusterTriggerBinding
+          ref: github-push
+      name: trigger-1
+      template:
+        ref: ${{ values.appName }}
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: el-${{ values.appName }}
+  labels:
+    app.kubernetes.io/instance: cicd-config
+    app.kubernetes.io/managed-by: EventListener
+    app.kubernetes.io/part-of: Triggers
+    eventlistener: ${{ values.appName }}
+  annotations:
+    openshift.io/host.generated: 'true'
+spec:
+  to:
+    kind: Service
+    name: el-${{ values.appName }}
+    weight: 100
+  port:
+    targetPort: http-listener
+  wildcardPolicy: None
