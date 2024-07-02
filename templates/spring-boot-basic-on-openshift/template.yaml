@@ -139,6 +139,7 @@ spec:
         baseUrl: 'https://sonarcloud.io'
         token: ${{ parameters.sonarToken }}
         name: '${{ parameters.appName }}'
+        organization: '${{ parameters.orgName }}'
         key: '${{ parameters.orgName }}_${{ parameters.appName }}'
         branch: 'master'
         visibility: 'public'
