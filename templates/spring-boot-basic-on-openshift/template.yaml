@@ -76,7 +76,7 @@ spec:
         clusterDomain:
           title: OpenShift Cluster Domain
           type: string
-          default: .apps.piomin.eastus.aroapp.io
+          default: apps.piomin.eastus.aroapp.io
   steps:
     - id: sourceCodeTemplate
       name: Generating the Source Code Component

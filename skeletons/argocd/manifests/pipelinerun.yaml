@@ -1,0 +1,26 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: ${{ values.appName }}-init
+spec:
+  params:
+    - name: git-revision
+      value: master
+  pipelineRef:
+    name: ${{ values.appName }}
+  serviceAccountName: pipeline
+  workspaces:
+    - name: source-dir
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi
+    - name: sonar-settings
+      secret:
+        secretName: sonarqube-secret-token
+    - configMap:
+        name: maven-settings
+      name: maven-settings

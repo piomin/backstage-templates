@@ -54,7 +54,7 @@ spec:
         kind: Task
         name: sonarqube-scanner
       workspaces:
-        - name: source-dir
+        - name: source
           workspace: source-dir
         - name: sonar-settings
           workspace: sonar-settings
@@ -86,6 +86,9 @@ spec:
       taskRef:
         kind: ClusterTask
         name: s2i-java
+      workspaces:
+        - name: source
+          workspace: source-dir
   workspaces:
     - name: source-dir
     - name: maven-settings
