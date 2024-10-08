@@ -2,6 +2,8 @@ apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
   name: ${{ values.appName }}-init
+  labels:
+    backstage.io/kubernetes-id: ${{ values.appName }}
 spec:
   params:
     - name: git-revision
