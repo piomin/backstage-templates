@@ -67,7 +67,7 @@ spec:
         - name: CONTEXT_DIR
           value: .
       runAfter:
-        - sonarqube-scanner
+        - sonarqube
       taskRef:
         kind: Task
         name: maven-get-project-version
