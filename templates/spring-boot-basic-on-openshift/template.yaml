@@ -32,6 +32,7 @@ spec:
         - description
         - registryUrl
         - clusterDomain
+        - sonarToken
       properties:
         orgName:
           title: Organization name
@@ -65,6 +66,10 @@ spec:
           title: The target namespace on Kubernetes
           type: string
           default: demo
+        sonarToken:
+          title: Sonarqube token
+          type: string
+          default: 766da964006ead6e3fcd1b182fbb344ac479f846
         description:
           title: Description
           type: string
@@ -134,25 +139,25 @@ spec:
         sourcePath: ./gitops
         repoVisibility: public
 
-    - id: sonarqube
-      name: Create a new project on Sonarcloud
-      action: http:backstage:request
-      input:
-        method: 'POST'
-        path: '/proxy/sonarqube/projects/create?name=${{ parameters.appName }}&organization=${{ parameters.orgName }}&project=${{ parameters.orgName }}_${{ parameters.appName }}'
-        headers:
-          content-type: 'application/json'
-
 #    - id: sonarqube
-#      name: Create new project on Sonarqube
-#      action: sonarqube:create-project
+#      name: Create a new project on Sonarcloud
+#      action: http:backstage:request
 #      input:
-#        baseUrl: 'https://sonarcloud.io'
-#        token: ${{ parameters.sonarToken }}
-#        name: '${{ parameters.appName }}'
-#        key: '${{ parameters.orgName }}_${{ parameters.appName }}'
-#        branch: 'master'
-#        visibility: 'public'
+#        method: 'POST'
+#        path: '/proxy/sonarqube/projects/create?name=${{ parameters.appName }}&organization=${{ parameters.orgName }}&project=${{ parameters.orgName }}_${{ parameters.appName }}'
+#        headers:
+#          content-type: 'application/json'
+
+    - id: sonarqube
+      name: Create new project on Sonarqube
+      action: sonarqube:create-project
+      input:
+        baseUrl: 'https://sonarcloud.io'
+        token: ${{ parameters.sonarToken }}
+        name: '${{ parameters.appName }}'
+        key: '${{ parameters.orgName }}_${{ parameters.appName }}'
+        branch: 'master'
+        visibility: 'public'
 
     - id: create-argocd-resources
       name: Create ArgoCD Resources
