@@ -4,7 +4,6 @@ metadata:
   name: ${{ values.appName }}
   labels:
     app: ${{ values.appName }}
-  annotations:
     backstage.io/kubernetes-id: ${{ values.appName }}
 spec:
   type: ClusterIP
