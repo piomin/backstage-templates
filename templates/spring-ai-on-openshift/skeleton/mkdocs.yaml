@@ -1,0 +1,11 @@
+site_name: ${{ values.appName }}
+site_description: ${{ values.description }}
+repo_url: https://github.com/${{ values.orgName }}/${{ values.appName }}
+edit_uri: edit/main/docs
+
+plugins:
+  - techdocs-core
+
+# Note for content editors, edit only the section below
+nav:
+  - ${{ values.appName }} Documentation: index.md
