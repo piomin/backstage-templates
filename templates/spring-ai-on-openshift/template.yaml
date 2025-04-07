@@ -92,11 +92,15 @@ spec:
         aiModelName:
           title: Model Name
           type: string
-          default: llama3.2
-        aiModelEndpoint:
-          title: Model Endpoint
+          default: llama32
+        aiModelTag:
+          title: Model Tag
           type: string
-          default: https://llama-32-1b-instruct.ai.svc.cluster.local
+          default: llama-3.2-1b-instruct
+        aiModelNamespace:
+          title: Model Namespace
+          type: string
+          default: ai
   steps:
     - id: sourceCodeTemplate
       name: Generating the Source Code Component
@@ -112,7 +116,7 @@ spec:
           apiPath: ${{ parameters.apiPath }}
           namespace: ${{ parameters.namespace }}
           aiModelName: ${{ parameters.aiModelName }}
-          aiModelEndpoint: ${{ parameters.aiModelEndpoint }}
+          aiModelNamespace: ${{ parameters.aiModelNamespace }}
 
     - id: publish
       name: Publishing to the Source Code Repository
@@ -157,7 +161,8 @@ spec:
           namespace: ${{ parameters.namespace }}
           repoBranchName: ${{ parameters.repoBranchName }}
           aiModelName: ${{ parameters.aiModelName }}
-          aiModelEndpoint: ${{ parameters.aiModelEndpoint }}
+          aiModelTag: ${{ parameters.aiModelTag }}
+          aiModelNamespace: ${{ parameters.aiModelNamespace }}
         targetPath: ./gitops/manifests
 
     - id: publish-config

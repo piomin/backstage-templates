@@ -12,7 +12,7 @@ management:
 spring:
   ai:
     openai:
-      base-url: ${{ values.aiModelEndpoint }}
+      base-url: https://${{ values.aiModelName }}-${{ values.aiModelNamespace }}.${{ values.clusterDomain }}
       chat:
         options:
           model: ${{ values.aiModelName }}
