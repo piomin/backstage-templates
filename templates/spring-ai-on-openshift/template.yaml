@@ -1,7 +1,7 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: spring-boot-basic-on-openshift-template
+  name: spring-ai-on-openshift-template
   title: Create a Spring Boot app for OpenShift
   description: Create a Spring Boot app for OpenShift
   tags:
@@ -129,18 +129,31 @@ spec:
         repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
         catalogInfoPath: /catalog-info.yaml
 
-    - id: configCodeTemplate
+    - id: configCodeTemplate-1
       name: Generating the Config Code Component
       action: fetch:template
       input:
-        url: ../../skeletons/argocd
+        url: ../../skeletons/argocd/manifests
         values:
           orgName: ${{ parameters.orgName }}
           appName: ${{ parameters.appName }}
           registryUrl: ${{ parameters.registryUrl }}
           namespace: ${{ parameters.namespace }}
           repoBranchName: ${{ parameters.repoBranchName }}
-        targetPath: ./gitops
+        targetPath: ./gitops/manifests
+
+    - id: configCodeTemplate-2
+      name: Adding AI Component to the Config Code Component
+      action: fetch:template
+      input:
+        url: ../../skeletons/argocd/ai
+        values:
+          orgName: ${{ parameters.orgName }}
+          appName: ${{ parameters.appName }}
+          registryUrl: ${{ parameters.registryUrl }}
+          namespace: ${{ parameters.namespace }}
+          repoBranchName: ${{ parameters.repoBranchName }}
+        targetPath: ./gitops/manifests/ai
 
     - id: publish
       name: Publishing to the Config Code Repository
