@@ -36,19 +36,21 @@ spec:
         - name: GOALS
           value:
             - test
-        - name: PROXY_PROTOCOL
-          value: http
-        - name: CONTEXT_DIR
-          value: .
       runAfter:
         - git-clone
       taskRef:
-        kind: ClusterTask
-        name: maven
+        resolver: cluster
+        params:
+          - name: kind
+            value: task
+          - name: name
+            value: maven
+          - name: namespace
+            value: openshift-pipelines
       workspaces:
         - name: source
           workspace: source-dir
-        - name: maven-settings
+        - name: maven_settings
           workspace: maven_settings
     - name: sonarqube
       params:

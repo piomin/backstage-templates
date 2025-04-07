@@ -25,4 +25,4 @@ spec:
         secretName: sonarqube-secret-token
     - configMap:
         name: maven-settings
-      name: maven-settings
+      name: maven_settings

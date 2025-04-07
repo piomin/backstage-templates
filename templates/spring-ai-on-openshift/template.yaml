@@ -116,8 +116,10 @@ spec:
           apiPath: ${{ parameters.apiPath }}
           namespace: ${{ parameters.namespace }}
           aiModelName: ${{ parameters.aiModelName }}
-          aiModelNamespace: ${{ parameters.aiModelNamespace }}
+          aiModelNamespace: ${{ parameters.namespace }}
           clusterDomain: ${{ parameters.clusterDomain }}
+          springBootVersion: ${{ parameters.springBootVersion }}
+          springAiVersion: ${{ parameters.springAiVersion }}
 
     - id: publish
       name: Publishing to the Source Code Repository
@@ -163,7 +165,7 @@ spec:
           repoBranchName: ${{ parameters.repoBranchName }}
           aiModelName: ${{ parameters.aiModelName }}
           aiModelTag: ${{ parameters.aiModelTag }}
-          aiModelNamespace: ${{ parameters.aiModelNamespace }}
+          aiModelNamespace: ${{ parameters.namespace }}
         targetPath: ./gitops/manifests
 
     - id: publish-config

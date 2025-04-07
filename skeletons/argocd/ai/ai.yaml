@@ -7,8 +7,8 @@ metadata:
     opendatahub.io/recommended-accelerators: '["nvidia.com/gpu"]'
     opendatahub.io/template-display-name: vLLM ServingRuntime for KServe
     opendatahub.io/template-name: vllm-runtime
-    openshift.io/display-name: ${{ values.modelName }}
-  name: ${{ values.modelName }}
+    openshift.io/display-name: ${{ values.aiModelName }}
+  name: ${{ values.aiModelName }}
   namespace: ai
   labels:
     opendatahub.io/dashboard: 'true'
@@ -50,11 +50,11 @@ apiVersion: serving.kserve.io/v1beta1
 kind: InferenceService
 metadata:
   annotations:
-    openshift.io/display-name: ${{ values.modelTag }}
+    openshift.io/display-name: ${{ values.aiModelTag }}
     serving.knative.openshift.io/enablePassthrough: 'true'
     sidecar.istio.io/inject: 'true'
     sidecar.istio.io/rewriteAppHTTPProbers: 'true'
-  name: ${{ values.modelName }}
+  name: ${{ values.aiModelName }}
   labels:
     opendatahub.io/dashboard: 'true'
 spec:
@@ -78,8 +78,8 @@ spec:
           cpu: '1'
           memory: 4Gi
           nvidia.com/gpu: '1'
-      runtime: ${{ values.modelName }}
-      storageUri: 'oci://quay.io/redhat-ai-services/modelcar-catalog:${{ values.modelTag }}'
+      runtime: ${{ values.aiModelName }}
+      storageUri: 'oci://quay.io/redhat-ai-services/modelcar-catalog:${{ values.aiModelTag }}'
     tolerations:
       - effect: NoSchedule
         key: nvidia.com/gpu
