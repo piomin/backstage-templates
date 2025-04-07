@@ -2,10 +2,11 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: spring-ai-on-openshift-template
-  title: Create a Spring Boot app for OpenShift
-  description: Create a Spring Boot app for OpenShift
+  title: Create a Spring AI app for OpenShift
+  description: Create a Spring AI app for OpenShift
   tags:
     - spring-boot
+    - spring-ai
     - java
     - maven
     - tekton
@@ -153,7 +154,7 @@ spec:
           registryUrl: ${{ parameters.registryUrl }}
           namespace: ${{ parameters.namespace }}
           repoBranchName: ${{ parameters.repoBranchName }}
-        targetPath: ./gitops/manifests/ai
+        targetPath: ./gitops/manifests
 
     - id: publish
       name: Publishing to the Config Code Repository

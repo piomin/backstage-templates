@@ -11,7 +11,7 @@ management:
 
 spring:
   ai:
-    ollama:
+    openai:
       base-url: ${{ values.aiModelEndpoint }}
       chat:
         options:

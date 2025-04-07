@@ -13,12 +13,6 @@ Once the app is generated you can run it locally with the following command:
 mvn clean spring-boot:run
 ```
 
-You can also run it automatically on Podman or OpenShift using the `odo` tool.
-The `devfile.yaml` is already in the project root repository. You just need to execute:
-```shell
-odo dev
-```
-
 You can also deploy app to Kubernetes or OpenShift with the Skaffold CLI.
 The configuration is already there. Just run:
 ```shell

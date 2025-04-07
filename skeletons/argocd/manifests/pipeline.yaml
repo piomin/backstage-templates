@@ -13,15 +13,21 @@ spec:
   tasks:
     - name: git-clone
       params:
-        - name: url
+        - name: URL
           value: 'https://github.com/${{ values.orgName }}/${{ values.appName }}.git'
-        - name: revision
+        - name: REVISION
           value: $(params.git-revision)
-        - name: sslVerify
+        - name: SSL_VERIFY
           value: 'false'
       taskRef:
-        kind: ClusterTask
-        name: git-clone
+        resolver: cluster
+        params:
+          - name: kind
+            value: task
+          - name: name
+            value: git-clone
+          - name: namespace
+            value: openshift-pipelines
       workspaces:
         - name: output
           workspace: source-dir
@@ -43,7 +49,7 @@ spec:
         - name: source
           workspace: source-dir
         - name: maven-settings
-          workspace: maven-settings
+          workspace: maven_settings
     - name: sonarqube
       params:
         - name: SONAR_HOST_URL
@@ -76,24 +82,25 @@ spec:
           workspace: source-dir
     - name: s2i-java
       params:
-        - name: PATH_CONTEXT
-          value: .
         - name: TLSVERIFY
           value: 'false'
-        - name: MAVEN_CLEAR_REPO
-          value: 'false'
         - name: IMAGE
-          value: >-
-            ${{ values.registryUrl }}/${{ values.namespace }}/${{ values.appName }}:$(tasks.get-version.results.version)
+          value: ${{ values.registryUrl }}/${{ values.namespace }}/${{ values.appName }}:$(tasks.get-version.results.version)
       runAfter:
         - get-version
       taskRef:
-        kind: ClusterTask
-        name: s2i-java
+        resolver: cluster
+        params:
+          - name: kind
+            value: task
+          - name: name
+            value: s2i-java
+          - name: namespace
+            value: openshift-pipelines
       workspaces:
         - name: source
           workspace: source-dir
   workspaces:
     - name: source-dir
-    - name: maven-settings
+    - name: maven_settings
     - name: sonar-settings
