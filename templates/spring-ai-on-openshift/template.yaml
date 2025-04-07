@@ -196,7 +196,6 @@ spec:
       - title: Open the Source Code in DevSpaces
         url: https://devspaces.${{ parameters.clusterDomain }}#${{ steps.publish.output.remoteUrl }}
       - title: Open the Config Code Repository
-        icon: github
         url: ${{ steps.publish-config.output.remoteUrl }}
       - title: Open the Catalog Info Component
         icon: catalog
