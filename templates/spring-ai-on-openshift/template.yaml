@@ -117,6 +117,7 @@ spec:
           namespace: ${{ parameters.namespace }}
           aiModelName: ${{ parameters.aiModelName }}
           aiModelNamespace: ${{ parameters.aiModelNamespace }}
+          clusterDomain: ${{ parameters.clusterDomain }}
 
     - id: publish
       name: Publishing to the Source Code Repository
