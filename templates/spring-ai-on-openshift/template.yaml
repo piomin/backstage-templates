@@ -111,6 +111,8 @@ spec:
           javaPackage: ${{ parameters.javaPackage }}
           apiPath: ${{ parameters.apiPath }}
           namespace: ${{ parameters.namespace }}
+          aiModelName: ${{ parameters.aiModelName }}
+          aiModelEndpoint: ${{ parameters.aiModelEndpoint }}
 
     - id: publish
       name: Publishing to the Source Code Repository
@@ -154,9 +156,11 @@ spec:
           registryUrl: ${{ parameters.registryUrl }}
           namespace: ${{ parameters.namespace }}
           repoBranchName: ${{ parameters.repoBranchName }}
+          aiModelName: ${{ parameters.aiModelName }}
+          aiModelEndpoint: ${{ parameters.aiModelEndpoint }}
         targetPath: ./gitops/manifests
 
-    - id: publish
+    - id: publish-config
       name: Publishing to the Config Code Repository
       action: publish:github
       input:
@@ -189,8 +193,12 @@ spec:
     links:
       - title: Open the Source Code Repository
         url: ${{ steps.publish.output.remoteUrl }}
+      - title: Open the Source Code in DevSpaces
+        url: https://devspaces.${{ parameters.clusterDomain }}#${{ steps.publish.output.remoteUrl }}
+      - title: Open the Config Code Repository
+        icon: github
+        url: ${{ steps.publish-config.output.remoteUrl }}
       - title: Open the Catalog Info Component
         icon: catalog
         entityRef: ${{ steps.register.output.entityRef }}
-      - title: SonarQube project URL
-        url: ${{ steps['create-sonar-project'].output.projectUrl }}
+
