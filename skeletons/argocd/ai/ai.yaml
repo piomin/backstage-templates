@@ -9,7 +9,6 @@ metadata:
     opendatahub.io/template-name: vllm-runtime
     openshift.io/display-name: ${{ values.aiModelName }}
   name: ${{ values.aiModelName }}
-  namespace: ai
   labels:
     opendatahub.io/dashboard: 'true'
 spec:
