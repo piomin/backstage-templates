@@ -13,6 +13,7 @@ spring:
   ai:
     openai:
       base-url: https://${{ values.aiModelName }}-${{ values.aiModelNamespace }}.${{ values.clusterDomain }}
+      api-key: dummy
       chat:
         options:
           model: ${{ values.aiModelName }}
