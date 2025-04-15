@@ -1,0 +1,243 @@
+trigger:
+  branches:
+    include:
+    - master
+
+variables:
+  solution: 'app/app.csproj'
+  buildConfiguration: 'Release'
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  sonarProjectKey: 'dotnet-basic-api'
+  sonarOrganization: 'piomin'
+  # OpenShift variables
+#  ocpClusterUrl: '$(OCP_CLUSTER_URL)'
+#  ocpToken: '$(OCP_TOKEN)'
+#  ocpNamespace: '$(OCP_NAMESPACE)'
+  imageStream: 'dotnet-basic-api'
+
+pool:
+  name: Azure Pipelines
+#  name: Default
+#  vmImage: 'ubuntu-latest'
+
+stages:
+- stage: Build
+  jobs:
+  - job: BuildAndTest
+    steps:
+#    - checkout: self
+
+    - task: UseDotNet@2
+      inputs:
+        version: '9.x'
+        includePreviewVersions: true
+
+    - task: NuGetToolInstaller@1
+      inputs:
+        versionSpec: '6.x'
+        checkLatest: true
+
+#    - task: CmdLine@2
+#      inputs:
+#        script: |
+#          ls -la
+#          pwd
+
+    - task: PowerShell@2
+      displayName: 'Get Project Version'
+      name: SetVersion
+      inputs:
+        targetType: 'inline'
+        script: |
+          $xml = [Xml] (Get-Content $(solution))
+          $version = $xml.Project.PropertyGroup.Version
+          Write-Host "##vso[task.setvariable variable=appVersion;isOutput=true]$version"
+          Write-Host "##vso[task.setvariable variable=projectVersion]$version"
+          Write-Host "Project version: $version"
+
+    - task: NuGetCommand@2
+      displayName: 'NuGet restore'
+      inputs:
+        command: 'restore'
+        restoreSolution: '$(solution)'
+        feedsToUse: 'select'
+
+    - task: SonarCloudPrepare@3
+      inputs:
+        SonarCloud: 'SonarCloud'
+        organization: '$(sonarOrganization)'
+        scannerMode: 'dotnet'
+        projectKey: '$(sonarProjectKey)'
+        projectName: 'Person Service'
+        extraProperties: |
+          sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/coverage.opencover.xml
+          sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Run Tests'
+      inputs:
+        command: 'test'
+        projects: 'dotnet test person-service.tests/person-service.tests.csproj'
+        arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage" --logger trx -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover'
+        publishTestResults: true
+
+    - task: PublishCodeCoverageResults@2
+      displayName: 'Publish Code Coverage'
+      inputs:
+        summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
+        failIfCoverageEmpty: false
+
+#    - task: SonarCloudAnalyze@3
+#      displayName: 'Run SonarCloud Analysis'
+
+#    - task: SonarCloudPublish@3
+#      displayName: 'Publish SonarCloud Results'
+#      inputs:
+#        pollingTimeoutSec: '300'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Build and Publish'
+      inputs:
+        command: 'publish'
+        publishWebProjects: false
+        projects: '$(solution)'
+        arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+        versioningScheme: 'byEnvVar'
+        versionEnvVar: 'projectVersion'
+        zipAfterPublish: false
+
+#    - task: DotNetCoreCLI@2
+#      displayName: 'Pack'
+#      inputs:
+#        command: 'build'
+#        packagesToPack: '$(solution)'
+##        packDirectory: '$(Build.ArtifactStagingDirectory)'
+#        versioningScheme: 'byEnvVar'
+#        versionEnvVar: 'projectVersion'
+#        configuration: '$(buildConfiguration)'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Build Artifacts'
+      inputs:
+        pathToPublish: '$(Build.ArtifactStagingDirectory)'
+        artifactName: 'person-service'
+        publishLocation: 'Container'
+
+- stage: BuildImage
+  dependsOn: Build
+  condition: succeeded()
+  variables:
+    imageTag: '$(appVersion)'
+    appVersion: $[ stageDependencies.Build.BuildAndTest.outputs['SetVersion.appVersion'] ]
+  jobs:
+  - job: BuildOnOpenShift
+    steps:
+      - download: current
+        artifact: person-service
+
+      - task: CmdLine@2
+        inputs:
+          script: |
+            echo "Installing OpenShift CLI (oc)..."
+            curl -LO "https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/linux/oc.tar.gz"
+            tar -xzf oc.tar.gz
+            sudo mv oc /usr/local/bin/
+            oc version
+        displayName: 'Install OpenShift CLI'
+
+      - task: CmdLine@2
+        inputs:
+          script: |
+            oc login $(OCP_CLUSTER) -u opentlc-mgr -p $(OCP_PASSWORD) --insecure-skip-tls-verify=true
+            oc project demo-ci
+            ls $(Pipeline.Workspace)/person-service
+        displayName: Login to OpenShift
+
+      - task: CmdLine@2
+        inputs:
+          script: |
+            oc process person-service-build -o yaml -p IMAGE_TAG=$(appVersion) -p IMAGE_STREAM=$(imageStream) | oc apply -f -
+            oc process s2i-build-tmpl -o yaml -p IMAGE_TAG=$(appVersion) | oc apply -f -
+        displayName: Create build
+
+      - task: CmdLine@2
+        displayName: Start Image Build
+        inputs:
+          script: |
+            oc start-build $(imageStream) \
+              --from-dir=$(Pipeline.Workspace)/person-service \
+              --follow
+
+      - task: CmdLine@2
+        displayName: Start S2I Build
+        inputs:
+          script: |
+            oc start-build $(imageStream)-s2i --follow -w
+            
+      
+
+- stage: DeployOnTest
+  dependsOn:
+    - Build
+    - BuildImage
+  condition: succeeded()
+  variables:
+    appVersion: $[ stageDependencies.Build.BuildAndTest.outputs['SetVersion.appVersion'] ]
+  jobs:
+  - job: CommitNewTag
+    steps:
+      - checkout: git://gitops
+        persistCredentials: true
+        fetchDepth: 0
+      - task: CmdLine@2
+        inputs:
+          script: |
+            pwd
+            ls -la
+            git config --global user.email "piotr.minkowski@gmail.com"
+            git config --global user.name "Piotr Minkowski"
+            git checkout main
+            yq e '.image.tag = "$(appVersion)"' -i apps/person-service/test/values.yaml
+            cat apps/person-service/test/values.yaml
+            git add apps/person-service/test/values.yaml
+            git commit -m "$(appVersion)"
+            git remote -v
+            git push https://$(System.AccessToken)@dev.azure.com/pminkows/pminkows/_git/gitops main
+        displayName: List catalog
+        env:
+          SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+
+- stage: DeployOnProd
+  dependsOn:
+    - Build
+    - DeployOnTest
+  condition: succeeded()
+  variables:
+    appVersion: $[ stageDependencies.Build.BuildAndTest.outputs['SetVersion.appVersion'] ]
+  jobs:
+    - deployment: Deployment_Staging
+      environment:
+        name: staging
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - checkout: git://gitops
+                persistCredentials: true
+                fetchDepth: 0
+              - task: CmdLine@2
+                inputs:
+                  script: |
+                    git config --global user.email "piotr.minkowski@gmail.com"
+                    git config --global user.name "Piotr Minkowski"
+                    git checkout main
+                    yq e '.image.tag = "$(appVersion)"' -i apps/person-service/prod/values.yaml
+                    cat apps/person-service/prod/values.yaml
+                    git add apps/person-service/prod/values.yaml
+                    git commit -m "$(appVersion)"
+                    git remote -v
+                    git push https://$(System.AccessToken)@dev.azure.com/pminkows/pminkows/_git/gitops main
+                displayName: List catalog
+                env:
+                  SYSTEM_ACCESSTOKEN: $(System.AccessToken)
