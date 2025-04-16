@@ -16,10 +16,8 @@ metadata:
     argocd/app-name: ${{ values.appName }}
     prometheus.io/rule: container_memory_usage_bytes{pod=~"${{ values.appName }}-.*"}|pod,rate(container_cpu_usage_seconds_total{pod=~"${{ values.appName }}-.*"}[5m])|pod
   tags:
-    - spring-boot
-    - java
-    - maven
-    - tekton
+    - dotnet
+    - azure-pipelines
     - argocd
     - renovate
     - sonarqube
