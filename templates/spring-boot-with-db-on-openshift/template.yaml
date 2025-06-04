@@ -137,6 +137,19 @@ spec:
           repoBranchName: ${{ parameters.repoBranchName }}
         targetPath: ./gitops/manifests
 
+    - id: configCodeTemplate-3
+      name: Generating the Config Code Component
+      action: fetch:template
+      input:
+        url: ../../skeletons/argocd/manifests
+        values:
+          orgName: ${{ parameters.orgName }}
+          appName: ${{ parameters.appName }}
+          registryUrl: ${{ parameters.registryUrl }}
+          namespace: ${{ parameters.namespace }}
+          repoBranchName: ${{ parameters.repoBranchName }}
+        targetPath: ./gitops/manifests
+
     - id: publish
       name: Publishing to the Config Code Repository
       action: publish:github
