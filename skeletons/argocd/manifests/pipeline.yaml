@@ -52,30 +52,12 @@ spec:
           workspace: source-dir
         - name: maven_settings
           workspace: maven_settings
-    - name: sonarqube
-      params:
-        - name: SONAR_HOST_URL
-          value: 'https://sonarcloud.io'
-        - name: SONAR_PROJECT_KEY
-          value: ${{ values.orgName }}_${{ values.appName }}
-        - name: SONAR_ORGANIZATION
-          value: ${{ values.orgName }}
-      runAfter:
-        - maven
-      taskRef:
-        kind: Task
-        name: sonarqube-scanner
-      workspaces:
-        - name: source
-          workspace: source-dir
-        - name: sonar-settings
-          workspace: sonar-settings
     - name: get-version
       params:
         - name: CONTEXT_DIR
           value: .
       runAfter:
-        - sonarqube
+        - maven
       taskRef:
         kind: Task
         name: maven-get-project-version

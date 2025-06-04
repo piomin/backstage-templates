@@ -1,0 +1,16 @@
+apiVersion: skaffold/v4beta5
+kind: Config
+metadata:
+  name: ${{ values.appName }}
+build:
+  artifacts:
+    - image: ${{ values.orgName }}/${{ values.appName }}
+      jib:
+        args:
+          - -Pjib
+          - -DskipTests
+manifests:
+  rawYaml:
+    - k8s/deployment.yaml
+deploy:
+  kubectl: {}

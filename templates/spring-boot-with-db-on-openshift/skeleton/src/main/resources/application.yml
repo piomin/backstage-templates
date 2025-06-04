@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: ${{ values.appName }}
+  datasource:
+    url: jdbc:postgresql://sample-database:5432/sampledb
+    username: ${DATABASE_USER}
+    password: ${DATABASE_PASS}
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+springdoc.show-actuator: true
+
+management.endpoints.web.exposure.include: '*'
+management:
+  endpoint.health:
+    show-details: always
+    probes:
+      enabled: true

@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${{ values.appName }}
+spec:
+  selector:
+    matchLabels:
+      app: ${{ values.appName }}
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: /actuator/prometheus
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+      labels:
+        app: ${{ values.appName }}
+    spec:
+      containers:
+        - name: ${{ values.appName }}
+          image: ${{ values.orgName }}/${{ values.appName }}
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              port: 8080
+              path: /actuator/health/readiness
+              scheme: HTTP
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          resources:
+            limits:
+              memory: 1024Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${{ values.appName }}
+spec:
+  type: NodePort
+  selector:
+    app: ${{ values.appName }}
+  ports:
+    - port: 8080
+      nodePort: 30000

@@ -46,3 +46,14 @@ spec:
           resources:
             limits:
               memory: 1024Mi
+          env:
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  key: db-user
+                  name: ${{ values.appName }}
+            - name: DATABASE_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: db-password
+                  name: ${{ values.appName }}

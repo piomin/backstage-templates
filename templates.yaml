@@ -11,3 +11,4 @@ spec:
     - templates/spring-boot-basic-on-openshift/template.yaml
     - templates/spring-ai-on-openshift/template.yaml
     - templates/dotnet-basic-on-openshift/template.yaml
+    - templates/spring-boot-with-db-on-openshift/template.yaml
