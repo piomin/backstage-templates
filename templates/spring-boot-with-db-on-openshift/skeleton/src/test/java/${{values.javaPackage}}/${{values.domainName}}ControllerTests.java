@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import ${{ values.groupId }}.domain.${{ values.domainName }};
 
+import static org.instancio.Select.field;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -24,7 +25,10 @@ public class ${{ values.domainName }}ControllerTests {
     @Test
     @Order(1)
     void add() {
-        ${{ values.domainName }} obj = restTemplate.postForObject(API_PATH, Instancio.create(${{ values.domainName }}.class), ${{ values.domainName }}.class);
+        ${{ values.domainName }} obj = Instancio.of(${{ values.domainName }}.class)
+                .ignore(field(${{ values.domainName }}::getId))
+                .create();
+        obj = restTemplate.postForObject(API_PATH, obj, ${{ values.domainName }}.class);
         assertNotNull(obj);
         assertEquals(1, obj.getId());
     }

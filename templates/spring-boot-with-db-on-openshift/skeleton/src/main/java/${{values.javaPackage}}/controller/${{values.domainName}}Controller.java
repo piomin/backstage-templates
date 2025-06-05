@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import ${{ values.groupId }}.domain.${{ values.domainName }};
+import ${{ values.groupId }}.repository.${{ values.domainName }}Repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,44 +14,41 @@ import java.util.List;
 public class ${{ values.domainName }}Controller {
 
     private final Logger LOG = LoggerFactory.getLogger(${{ values.domainName }}Controller.class);
-    private final List<${{ values.domainName }}> objs = new ArrayList<>();
+
+    ${{ values.domainName }}Repository repository;
+
+    public ${{ values.domainName }}Controller(${{ values.domainName }}Repository repository) {
+        this.repository = repository;
+    }
 
     @GetMapping
     public List<${{ values.domainName }}> findAll() {
-        return objs;
+        return (List<${{ values.domainName }}>) repository.findAll();
     }
 
     @GetMapping("/{id}")
     public ${{ values.domainName }} findById(@PathVariable("id") Long id) {
-        ${{ values.domainName }} obj = objs.stream().filter(it -> it.getId().equals(id))
-                .findFirst()
-                .orElseThrow();
+        ${{ values.domainName }} obj = repository.findById(id).orElseThrow();
         LOG.info("Found: {}", obj.getId());
         return obj;
     }
 
     @PostMapping
     public ${{ values.domainName }} add(@RequestBody ${{ values.domainName }} obj) {
-        obj.setId((long) (objs.size() + 1));
+        obj = repository.save(obj);
         LOG.info("Added: {}", obj);
-        objs.add(obj);
         return obj;
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Long id) {
-        ${{ values.domainName }} obj = objs.stream().filter(it -> it.getId().equals(id)).findFirst().orElseThrow();
-        objs.remove(obj);
+        repository.deleteById(id);
         LOG.info("Removed: {}", id);
     }
 
     @PutMapping
     public void update(@RequestBody ${{ values.domainName }} obj) {
-        ${{ values.domainName }} objTmp = objs.stream()
-                .filter(it -> it.getId().equals(obj.getId()))
-                .findFirst()
-                .orElseThrow();
-        objs.set(objs.indexOf(objTmp), obj);
+        repository.save(obj);
         LOG.info("Updated: {}", obj.getId());
     }
 
