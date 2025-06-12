@@ -1,0 +1,53 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  description: Create a Secret in Kubernetes
+  name: create-secret
+  title: Create a Secret
+spec:
+  lifecycle: experimental
+  owner: user
+  type: example
+  parameters:
+    - properties:
+        name:
+          description: The namespace name
+          title: Name
+          type: string
+          ui:autofocus: true
+      required:
+        - name
+      title: Namespace Name
+    - properties:
+        secretName:
+          description: The secret name
+          title: Secret Name
+          type: string
+          ui:autofocus: true
+      required:
+        - secretName
+      title: Secret Name
+    - title: Cluster Name
+      properties:
+        cluster:
+          type: string
+          enum:
+            - ocp
+          ui:autocomplete:
+            options:
+              - ocp
+  steps:
+    - action: kube:apply
+      id: k-apply
+      name: Create a Resouce
+      input:
+        namespaced: true
+        clusterName: ${{ parameters.cluster }}
+        manifest: |
+          kind: Secret
+          apiVersion: v1
+          metadata:
+            name: ${{ parameters.secretName }}
+            namespace: ${{ parameters.name }}
+          data:
+            username: YWRtaW4=
