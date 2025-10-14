@@ -13,6 +13,10 @@ metadata:
     backstage.io/techdocs-ref: dir:.
     argocd/app-name: ${{ values.appName }}
     prometheus.io/rule: container_memory_usage_bytes{pod=~"${{ values.appName }}-.*"}|pod,rate(container_cpu_usage_seconds_total{pod=~"${{ values.appName }}-.*"}[5m])|pod
+  links:
+    - url: https://devspaces.${{ values.domainName }}#https://github.com/${{ values.orgName }}/${{ values.appName }}
+      title: 🚀 Develop App
+      icon: launch
   tags:
     - spring-boot
     - java
@@ -23,5 +27,5 @@ metadata:
     - sonarqube
 spec:
   type: service
-  owner: piomin
+  owner: ${{ values.owner }}
   lifecycle: experimental
