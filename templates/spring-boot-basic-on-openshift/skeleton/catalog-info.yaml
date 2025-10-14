@@ -7,6 +7,7 @@ metadata:
     janus-idp.io/tekton: ${{ values.appName }}
     tektonci/build-namespace: ${{ values.namespace }}
     tekton.dev/cicd : "true"
+    quay.io/repository-slug: pminkows/${{ values.appName }}
     github.com/project-slug: ${{ values.orgName }}/${{ values.appName }}
     sonarqube.org/project-key: ${{ values.orgName }}_${{ values.appName }}
     backstage.io/kubernetes-id: ${{ values.appName }}
@@ -29,3 +30,17 @@ spec:
   type: service
   owner: ${{ values.owner }}
   lifecycle: experimental
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: piomin
+  description: "The team responsible for awesome features"
+spec:
+  type: team
+  children:
+    - dev-team
+    - qa-team
+  members:
+    - alice
+    - bob
