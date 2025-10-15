@@ -32,7 +32,6 @@ spec:
         - description
         - registryUrl
         - registryGroup
-        - registryToken
         - clusterDomain
       properties:
         orgName:
