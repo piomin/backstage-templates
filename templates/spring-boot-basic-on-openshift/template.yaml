@@ -102,6 +102,7 @@ spec:
           javaPackage: ${{ parameters.javaPackage }}
           apiPath: ${{ parameters.apiPath }}
           namespace: ${{ parameters.namespace }}
+          clusterDomain: ${{ parameters.clusterDomain }}
 
     - id: publish
       name: Publishing to the Source Code Repository
@@ -158,6 +159,7 @@ spec:
         repoUrl: github.com?owner=${{ parameters.orgName }}&repo=${{ parameters.appName }}-config
         defaultBranch: ${{ parameters.repoBranchName }}
         sourcePath: ./gitops
+        protectDefaultBranch: false
         repoVisibility: public
 
     - id: create-webhook
