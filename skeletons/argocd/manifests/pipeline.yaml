@@ -64,7 +64,7 @@ spec:
         kind: Task
         name: sonarqube-scanner
       workspaces:
-        - name: source-dir
+        - name: source
           workspace: source-dir
         - name: sonar-settings
           workspace: sonar-settings
