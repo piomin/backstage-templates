@@ -89,6 +89,10 @@ spec:
           title: OpenShift Cluster Domain
           type: string
           default: apps.piomin.eastus.aroapp.io
+        enabledDB:
+          title: Enable Database
+          type: boolean
+          default: true
   steps:
     - id: sourceCodeTemplate
       name: Generating the Source Code Component
@@ -133,6 +137,7 @@ spec:
           registryUrl: ${{ parameters.registryUrl }}
           namespace: ${{ parameters.namespace }}
           repoBranchName: ${{ parameters.repoBranchName }}
+          enabledDB: ${{ parameters.enabledDB }}
         targetPath: ./gitops/manifests
 
     - id: configCodeTemplate-2

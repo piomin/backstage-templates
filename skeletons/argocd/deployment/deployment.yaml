@@ -46,6 +46,7 @@ spec:
           resources:
             limits:
               memory: 1024Mi
+          {% if values.enabledDB %}
           env:
             - name: DATABASE_USER
               valueFrom:
@@ -57,3 +58,4 @@ spec:
                 secretKeyRef:
                   key: db-password
                   name: ${{ values.appName }}
+          {% endif %}
