@@ -85,12 +85,6 @@ spec:
           title: Registry namespace
           type: string
           default: demo
-        registryToken:
-          title: Registry token
-          type: string
-          description: Bearer token used for Quay authorization
-          ui:field: Secret
-          default: '{{ env.QUAY_TOKEN }}'
         clusterDomain:
           title: OpenShift Cluster Domain
           type: string
@@ -128,18 +122,6 @@ spec:
       input:
         repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
         catalogInfoPath: /catalog-info.yaml
-
-    - id: createQuayRepo
-      name: Create Quay Repo
-      action: quay:create-repository
-      input:
-        baseUrl: https://quay.io
-        token: ${{ secrets.registryToken }}
-        name: ${{ parameters.appName }}
-        visibility: public
-        description: ${{ parameters.description }}
-        namespace: ${{ parameters.registryGroup }}
-        repoKind: image
 
     - id: configCodeTemplate-1
       name: Generating the Config Code Component
