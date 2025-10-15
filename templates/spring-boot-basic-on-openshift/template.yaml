@@ -134,7 +134,7 @@ spec:
       action: quay:create-repository
       input:
         baseUrl: https://quay.io
-        token: ${{ secrets.token }}
+        token: ${{ secrets.registryToken }}
         name: ${{ parameters.appName }}
         visibility: public
         description: ${{ parameters.description }}
