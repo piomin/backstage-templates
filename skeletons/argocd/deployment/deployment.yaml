@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: ${{ values.appName }}
-          image: ${{ values.registryUrl }}/${{ values.namespace }}/${{ values.appName }}:1.0
+          image: ${{ values.registryUrl }}/${{ values.registryGroup }}/${{ values.appName }}:1.0
           ports:
             - containerPort: 8080
               name: http

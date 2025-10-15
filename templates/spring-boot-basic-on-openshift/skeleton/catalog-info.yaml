@@ -42,5 +42,4 @@ spec:
     - dev-team
     - qa-team
   members:
-    - alice
-    - bob
+    - piomin
