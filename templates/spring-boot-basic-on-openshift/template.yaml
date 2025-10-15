@@ -24,7 +24,6 @@ spec:
         - orgName
         - appName
         - domainName
-        - owner
         - repoBranchName
         - groupId
         - javaPackage
@@ -47,15 +46,6 @@ spec:
           title: Name of the domain object
           type: string
           default: Person
-        owner:
-          title: Owner
-          type: string
-          ui:field: EntityPicker
-          ui:options:
-            catalogFilter:
-              kind:
-                - Group
-                - User
         repoBranchName:
           title: Name of the branch in the Git repository
           type: string
