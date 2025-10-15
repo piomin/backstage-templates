@@ -6,6 +6,7 @@ metadata:
     app: ${{ values.appName }}
     app.kubernetes.io/component: ${{ values.appName }}
     app.kubernetes.io/instance: ${{ values.appName }}
+    backstage.io/kubernetes-id: ${{ values.appName }}
   annotations:
     openshift.io/host.generated: 'true'
 spec:
