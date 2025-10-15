@@ -90,6 +90,7 @@ spec:
           type: string
           description: Bearer token used for Quay authorization
           ui:field: Secret
+          default: '{{ env.QUAY_TOKEN }}'
         clusterDomain:
           title: OpenShift Cluster Domain
           type: string
