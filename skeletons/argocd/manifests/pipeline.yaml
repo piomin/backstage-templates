@@ -109,7 +109,7 @@ spec:
         - name: image
           value: ${{ values.registryUrl }}/${{ values.registryGroup }}/${{ values.appName }}:$(tasks.get-version.results.version)
         - name: output_format
-          value: table
+          value: json
         - name: insecure-skip-tls-verify
           value: 'true'
       runAfter:
