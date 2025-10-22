@@ -100,6 +100,23 @@ spec:
       workspaces:
         - name: source
           workspace: source-dir
+    - name: rhacs-image-check
+      params:
+        - name: rox_central_endpoint
+          value: rox-central-endpoint
+        - name: rox_api_token
+          value: rox-api-token
+        - name: image
+          value: ${{ values.registryUrl }}/${{ values.registryGroup }}/${{ values.appName }}:$(tasks.get-version.results.version)
+        - name: output_format
+          value: table
+        - name: insecure-skip-tls-verify
+          value: 'true'
+      runAfter:
+        - s2i-java
+      taskRef:
+        kind: Task
+        name: rhacs-image-check
   workspaces:
     - name: source-dir
     - name: maven_settings
