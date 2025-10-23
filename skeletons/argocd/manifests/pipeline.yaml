@@ -72,11 +72,32 @@ spec:
           workspace: source-dir
         - name: sonar-settings
           workspace: sonar-settings
+    - name: dependency-analytics
+      params:
+        - name: manifest-file-path
+          value: pom.xml
+        - name: output-file-path
+          value: redhat-dependency-analytics-report.json
+        - name: rhda-image
+          value: 'quay.io/ecosystem-appeng/exhort-javascript-api:v0.2.4-ea.11'
+        - name: python-image
+          value: 'python:3.11'
+        - name: use-go-mvs-logic
+          value: 'false'
+      runAfter:
+        - maven
+      taskRef:
+        kind: Task
+        name: redhat-dependency-analytics
+      workspaces:
+        - name: output
+          workspace: source-dir
     - name: get-version
       params:
         - name: CONTEXT_DIR
           value: .
       runAfter:
+        - dependency-analytics
         - sonarqube
       taskRef:
         kind: Task
