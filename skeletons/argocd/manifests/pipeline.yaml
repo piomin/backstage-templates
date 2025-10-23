@@ -10,6 +10,10 @@ spec:
       name: git-revision
       type: string
       default: master
+  results:
+    - description: The common vulnerabilities and exposures (CVE) result
+      name: SCAN_OUTPUT
+      value: $(tasks.vulnerability-scan.results.SCAN_OUTPUT)
   tasks:
     - name: git-clone
       params:
@@ -100,23 +104,15 @@ spec:
       workspaces:
         - name: source
           workspace: source-dir
-    - name: rhacs-image-check
+    - name: vulnerability-scan
       params:
-        - name: rox_central_endpoint
-          value: rox-central-endpoint
-        - name: rox_api_token
-          value: rox-api-token
         - name: image
           value: ${{ values.registryUrl }}/${{ values.registryGroup }}/${{ values.appName }}:$(tasks.get-version.results.version)
-        - name: output_format
-          value: json
-        - name: insecure-skip-tls-verify
-          value: 'true'
-      runAfter:
-        - s2i-java
       taskRef:
         kind: Task
-        name: rhacs-image-check
+        name: vulnerability-scan
+      runAfter:
+        - s2i-java
   workspaces:
     - name: source-dir
     - name: maven_settings
