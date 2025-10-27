@@ -85,7 +85,7 @@ spec:
         - name: use-go-mvs-logic
           value: 'false'
       runAfter:
-        - maven
+        - sonarqube
       taskRef:
         kind: Task
         name: redhat-dependency-analytics
@@ -98,7 +98,6 @@ spec:
           value: .
       runAfter:
         - dependency-analytics
-        - sonarqube
       taskRef:
         kind: Task
         name: maven-get-project-version
