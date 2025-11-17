@@ -112,7 +112,7 @@ spec:
       name: Publishing to the Source Code Repository
       action: publish:github
       input:
-        allowedHosts: ['github.com']
+#        allowedHosts: ['github.com']
         description: ${{ parameters.description }}
         repoUrl: github.com?owner=${{ parameters.orgName }}&repo=${{ parameters.appName }}
         defaultBranch: ${{ parameters.repoBranchName }}
@@ -159,7 +159,7 @@ spec:
       name: Publishing to the Config Code Repository
       action: publish:github
       input:
-        allowedHosts: ['github.com']
+#        allowedHosts: ['github.com']
         description: ${{ parameters.description }}
         repoUrl: github.com?owner=${{ parameters.orgName }}&repo=${{ parameters.appName }}-config
         defaultBranch: ${{ parameters.repoBranchName }}
