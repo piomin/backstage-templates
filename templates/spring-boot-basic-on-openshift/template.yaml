@@ -182,8 +182,8 @@ spec:
         argoInstance: main
         namespace: ${{ parameters.namespace }}
         repoUrl: https://github.com/${{ parameters.orgName }}/${{ parameters.appName }}-config.git
-        defaultBranch: ${{ parameters.repoBranchName }}
-        protectDefaultBranch: false
+#        defaultBranch: ${{ parameters.repoBranchName }}
+#        protectDefaultBranch: false
         path: 'manifests'
 
   output:
