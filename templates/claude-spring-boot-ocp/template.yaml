@@ -105,6 +105,7 @@ spec:
           apiPath: ${{ parameters.apiPath }}
           namespace: ${{ parameters.namespace }}
           clusterDomain: ${{ parameters.clusterDomain }}
+          modelName: ${{ parameters.modelName }}
 
     - id: publish
       name: Publishing to the Source Code Repository
