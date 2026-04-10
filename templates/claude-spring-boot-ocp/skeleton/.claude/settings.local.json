@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mvn:*)",
+      "Bash(ls:*)",
+      "Bash(jar tf:*)",
+      "Bash(java:*)",
+      "Bash(grep -E \"\\\\.java$|\\\\.yml$|\\\\.properties$|src/\")",
+      "Bash(git ls-tree:*)",
+      "Bash(grep -E \"\\\\.\\(java|yml|properties|xml\\)$\")",
+      "Bash(docker-compose up:*)",
+      "Bash(docker ps:*)",
+      "Bash(docker exec:*)",
+      "Bash(docker-compose down:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(file .claude/agents/*.md .claude/skills/*/*.md)",
+      "Bash(git add:*)"
+    ]
+  },
+  "env": {
+    "ANTHROPIC_BASE_URL": "http://${{ values.modelName }}-rhaiis.ai.svc.cluster.local:8000",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "${{ values.modelName }}",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "${{ values.modelName }}",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "${{ values.modelName }}",
+    "ANTHROPIC_API_KEY": "dummy",
+    "CLAUDE_CODE_SKIP_AUTH_LOGIN": 1,
+    "CLAUDE_CODE_ENABLE_TELEMETRY": "0",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_ATTRIBUTION_HEADER" : "0"
+  },
+  "prefersReducedMotion" : true,
+  "terminalProgressBarEnabled" : false,
+  "effortLevel" : "high"
+}
