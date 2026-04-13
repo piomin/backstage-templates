@@ -1,9 +1,9 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: quarkus-mcp-server
-  title: Create a Quarkus MCP app for OpenShift
-  description: Create a Quarkus MCP app for OpenShift
+  name: quarkus-ai-with-mcp
+  title: Create a Quarkus AI app for OpenShift
+  description: Create a Quarkus AI app for OpenShift
   tags:
     - quarkus
     - java
@@ -41,7 +41,7 @@ spec:
         appName:
           title: App name
           type: string
-          default: quarkus-mcp-server
+          default: quarkus-ai-with-mcp
         domainName:
           title: Name of the domain object
           type: string

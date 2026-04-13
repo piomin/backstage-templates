@@ -13,3 +13,4 @@ spec:
     - templates/spring-boot-with-db-on-openshift/template.yaml
     - templates/claude-spring-boot-ocp/template.yaml
     - templates/quarkus-mcp-server/template.yaml
+    - templates/quarkus-ai-with-mcp/template.yaml

@@ -1,4 +1,4 @@
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: Pipeline
 metadata:
   name: ${{ values.appName }}
@@ -10,10 +10,6 @@ spec:
       name: git-revision
       type: string
       default: master
-  results:
-    - description: The common vulnerabilities and exposures (CVE) result
-      name: SCAN_OUTPUT
-      value: $(tasks.vulnerability-scan.results.SCAN_OUTPUT)
   tasks:
     - name: git-clone
       params:
