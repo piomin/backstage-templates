@@ -41,11 +41,11 @@ spec:
         appName:
           title: App name
           type: string
-          default: sample-spring-boot-app-openshift
+          default: quarkus-mcp-server
         domainName:
           title: Name of the domain object
           type: string
-          default: Person
+          default: Account
         repoBranchName:
           title: Name of the branch in the Git repository
           type: string
