@@ -1,0 +1,71 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: ${{ values.appName }}
+  labels:
+    backstage.io/kubernetes-id: ${{ values.appName }}
+spec:
+  params:
+    - description: branch
+      name: git-revision
+      type: string
+      default: master
+  results:
+    - description: The common vulnerabilities and exposures (CVE) result
+      name: SCAN_OUTPUT
+      value: $(tasks.vulnerability-scan.results.SCAN_OUTPUT)
+  tasks:
+    - name: git-clone
+      params:
+        - name: URL
+          value: 'https://github.com/${{ values.orgName }}/${{ values.appName }}.git'
+        - name: REVISION
+          value: $(params.git-revision)
+        - name: SSL_VERIFY
+          value: 'false'
+      taskRef:
+        resolver: cluster
+        params:
+          - name: kind
+            value: task
+          - name: name
+            value: git-clone
+          - name: namespace
+            value: openshift-pipelines
+      workspaces:
+        - name: output
+          workspace: source-dir
+    - name: get-version
+      params:
+        - name: CONTEXT_DIR
+          value: .
+      runAfter:
+        - git-clone
+      taskRef:
+        kind: Task
+        name: maven-get-project-version
+      workspaces:
+        - name: source
+          workspace: source-dir
+    - name: s2i-java
+      params:
+        - name: TLSVERIFY
+          value: 'false'
+        - name: IMAGE
+          value: ${{ values.registryUrl }}/${{ values.registryGroup }}/${{ values.appName }}:$(tasks.get-version.results.version)
+      runAfter:
+        - get-version
+      taskRef:
+        resolver: cluster
+        params:
+          - name: kind
+            value: task
+          - name: name
+            value: s2i-java
+          - name: namespace
+            value: openshift-pipelines
+      workspaces:
+        - name: source
+          workspace: source-dir
+  workspaces:
+    - name: source-dir
