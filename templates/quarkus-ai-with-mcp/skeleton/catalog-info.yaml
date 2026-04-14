@@ -20,13 +20,13 @@ metadata:
       title: 🚀 Develop App
       icon: launch
   tags:
-    - spring-boot
+    - quarkus
     - java
-    - maven
+    - mcp
     - tekton
     - argocd
-    - renovate
-    - sonarqube
+    - langchain4j
+    - openshift
 spec:
   type: service
   owner: piomin

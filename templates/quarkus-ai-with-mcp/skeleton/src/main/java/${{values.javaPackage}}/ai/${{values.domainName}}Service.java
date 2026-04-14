@@ -1,4 +1,4 @@
-package pl.piomin.services.ai;
+package ${{ values.groupId }}.ai;
 
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
@@ -8,21 +8,22 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 @RegisterAiService
-public interface AccountService {
+public interface ${{values.domainName}}Service {
 
     @SystemMessage("""
         You are a helpful assistant that generates realistic data.
         Return a single number.
         """)
-    @UserMessage("How many accounts has person with {personId} ID ?")
-    @McpToolBox("account-service")
-    int countByPersonId(int personId);
+    @UserMessage("""
+        Put your prompt here.
+        """)
+    @McpToolBox("mcp-service")
+    int yourMethod(int personId);
 
     @UserMessage("""
-        How many accounts has person with {personId} ID ?
-        Return person name, nationality and a total balance on his/her accounts.
+        Put your prompt here.
         """)
-    @McpToolBox("account-service")
-    String balanceByPersonId(int personId);
+    @McpToolBox("mcp-service")
+    String yourMethod2(int personId);
 
 }
