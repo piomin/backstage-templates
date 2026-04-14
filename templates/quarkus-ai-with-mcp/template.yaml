@@ -88,6 +88,21 @@ spec:
           title: OpenShift Cluster Domain
           type: string
           default: apps.piomin.eastus.aroapp.io
+        secretReferences:
+          title: Secret References (optional)
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                title: Secret Key Name
+                type: string
+                default: AI_TOKEN
+              secretName:
+                title: Kubernetes Secret Name
+                type: string
+                default: creds
+          default: []
   steps:
     - id: sourceCodeTemplate
       name: Generating the Source Code Component
@@ -147,6 +162,7 @@ spec:
           registryGroup: ${{ parameters.registryGroup }}
           namespace: ${{ parameters.namespace }}
           repoBranchName: ${{ parameters.repoBranchName }}
+          secretReferences: ${{ parameters.secretReferences }}
         targetPath: ./gitops/manifests
 
     - id: publish

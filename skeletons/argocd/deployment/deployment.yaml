@@ -41,3 +41,13 @@ spec:
                   key: db-password
                   name: ${{ values.appName }}
           {% endif %}
+          {% if values.secretReferences and values.secretReferences | length > 0 %}
+          env:
+            {% for secret in values.secretReferences %}
+            - name: {{ secret.key }}
+              valueFrom:
+                secretKeyRef:
+                  key: {{ secret.key }}
+                  name: {{ secret.secretName }}
+            {% endfor %}
+          {% endif %}
