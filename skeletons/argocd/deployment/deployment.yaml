@@ -44,10 +44,10 @@ spec:
           {% if values.secretReferences and values.secretReferences | length > 0 %}
           env:
             {% for secret in values.secretReferences %}
-            - name: {{ secret.key }}
+            - name: ${{ secret.key }}
               valueFrom:
                 secretKeyRef:
-                  key: {{ secret.key }}
-                  name: {{ secret.secretName }}
+                  key: ${{ secret.key }}
+                  name: ${{ secret.secretName }}
             {% endfor %}
           {% endif %}
