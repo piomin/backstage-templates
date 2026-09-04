@@ -11,6 +11,7 @@ metadata:
     - circleci
     - renovate
     - sonarqube
+    - team-a-only
 spec:
   owner: piomin
   system: microservices
