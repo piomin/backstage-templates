@@ -13,7 +13,7 @@ metadata:
     - sonarqube
     - team-a-only
 spec:
-  owner: piomin
+  owner: group:default/team-a
   system: microservices
   type: service
 
