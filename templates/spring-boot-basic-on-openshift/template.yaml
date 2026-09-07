@@ -13,8 +13,9 @@ metadata:
     - sonarqube
     - openshift
     - argocd
+    - team-b-only
 spec:
-  owner: piomin
+  owner: group:default/team-b
   system: microservices
   type: service
 
